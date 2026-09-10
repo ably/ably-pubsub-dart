@@ -40,6 +40,11 @@ class AuthImpl implements Auth {
   AuthOptions? _storedAuthOptions;
   TokenParams? _storedTokenParams;
 
+  /// Called after a new token is obtained and stored, so interested parties
+  /// can observe identity changes (e.g. push activation per RSH8d/RSH8e,
+  /// when the client becomes identified per RSA7b2/RSA7b3).
+  void Function()? onTokenChanged;
+
   void _initialize() {
     // Initialize with any token provided in options
     if (_options.tokenDetails != null) {
@@ -123,17 +128,32 @@ class AuthImpl implements Auth {
     // - useTokenAuth is explicitly true
     // - authCallback is set
     // - authUrl is set
-    // - clientId is set (RSA4b - can't use basic auth with clientId)
     // - token or tokenDetails is set
     // - a token has been obtained via authorize()
+    // Note: a clientId alone does NOT force token auth — basic auth with a
+    // clientId is identified via the X-Ably-ClientId header (RSA7e2).
     if (_options.useTokenAuth == true) return true;
     if (_options.authCallback != null) return true;
     if (_options.authUrl != null) return true;
-    if (_options.clientId != null) return true;
     if (_options.token != null) return true;
     if (_options.tokenDetails != null) return true;
     if (_currentToken != null) return true; // Token obtained via authorize()
     return false;
+  }
+
+  /// Additional authentication-related request headers.
+  ///
+  /// RSA7e2: for REST clients using basic authentication with a `clientId`
+  /// in `ClientOptions`, all requests include an `X-Ably-ClientId` header
+  /// with the Base64-encoded clientId.
+  Map<String, String> get additionalAuthHeaders {
+    final optionsClientId = _options.clientId;
+    if (method == AuthMethod.basic &&
+        optionsClientId != null &&
+        optionsClientId != '*') {
+      return {'X-Ably-ClientId': base64.encode(utf8.encode(optionsClientId))};
+    }
+    return const {};
   }
 
   /// Gets the authorization header for HTTP requests.
@@ -226,6 +246,7 @@ class AuthImpl implements Auth {
           'expiresIn':
               _currentToken!.expires! - clock.now().millisecondsSinceEpoch,
       });
+      onTokenChanged?.call();
       return _currentToken!;
     } catch (e) {
       // If renewal fails, token remains null (RSA16d)

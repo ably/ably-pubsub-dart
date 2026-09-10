@@ -15,19 +15,24 @@ class PushChannelImpl implements PushChannel {
     required String channelName,
     required AblyHttpClient httpClient,
     required LocalDevice? Function() getDevice,
+    Future<LocalDevice?> Function()? loadDevice,
   })  : _channelName = channelName,
         _httpClient = httpClient,
-        _getDevice = getDevice;
+        _getDevice = getDevice,
+        _loadDevice = loadDevice;
 
   final String _channelName;
   final AblyHttpClient _httpClient;
   final LocalDevice? Function() _getDevice;
+  final Future<LocalDevice?> Function()? _loadDevice;
 
   static const _basePath = '/push/channelSubscriptions';
 
-  /// Returns the current device, throwing if not set.
-  LocalDevice _requireDevice() {
-    final device = _getDevice();
+  /// Returns the current device, hydrating it from persisted state when
+  /// first required (RSH8a), throwing if unavailable.
+  Future<LocalDevice> _requireDevice() async {
+    var device = _getDevice();
+    device ??= await _loadDevice?.call();
     if (device == null) {
       throw const AblyException(
         message: 'No device registered',
@@ -66,7 +71,7 @@ class PushChannelImpl implements PushChannel {
   /// RSH7a3: Uses device authentication.
   @override
   Future<void> subscribeDevice() async {
-    final device = _requireDevice();
+    final device = await _requireDevice();
     final headers = _deviceAuthHeaders(device);
 
     await _httpClient.request(
@@ -86,7 +91,7 @@ class PushChannelImpl implements PushChannel {
   /// RSH7b2: POSTs to /push/channelSubscriptions with clientId and channel.
   @override
   Future<void> subscribeClient() async {
-    final device = _requireDevice();
+    final device = await _requireDevice();
     final clientId = device.clientId;
     if (clientId == null) {
       throw const AblyException(
@@ -116,7 +121,7 @@ class PushChannelImpl implements PushChannel {
   /// RSH7c3: Uses device authentication.
   @override
   Future<void> unsubscribeDevice() async {
-    final device = _requireDevice();
+    final device = await _requireDevice();
     final headers = _deviceAuthHeaders(device);
 
     await _httpClient.request(
@@ -136,7 +141,7 @@ class PushChannelImpl implements PushChannel {
   /// RSH7d2: DELETEs from /push/channelSubscriptions with clientId and channel.
   @override
   Future<void> unsubscribeClient() async {
-    final device = _requireDevice();
+    final device = await _requireDevice();
     final clientId = device.clientId;
     if (clientId == null) {
       throw const AblyException(
@@ -167,7 +172,7 @@ class PushChannelImpl implements PushChannel {
   Future<PaginatedResult<PushChannelSubscription>> listSubscriptions(
     Map<String, String> params,
   ) async {
-    final device = _requireDevice();
+    final device = await _requireDevice();
 
     final queryParams = <String, String>{
       'channel': _channelName,

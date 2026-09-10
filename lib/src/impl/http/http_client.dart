@@ -80,6 +80,10 @@ class AblyHttpClient {
   /// Set the auth header provider (called after Auth is initialized).
   AuthHeaderProvider? authHeaderProvider;
 
+  /// Provider of additional authentication-related headers, e.g. the
+  /// X-Ably-ClientId header for basic auth with a clientId (RSA7e2).
+  Map<String, String> Function()? additionalAuthHeadersProvider;
+
   /// Set the token renewer (called to force token renewal on 40142 errors).
   TokenRenewer? tokenRenewer;
 
@@ -266,6 +270,11 @@ class AblyHttpClient {
       final provider = authHeaderProvider ?? _authHeaderProvider;
       if (provider != null) {
         headers[HttpHeaders.authorization] = await provider();
+      }
+      // RSA7e2: X-Ably-ClientId for basic auth with a clientId
+      final additionalHeaders = additionalAuthHeadersProvider?.call();
+      if (additionalHeaders != null) {
+        headers.addAll(additionalHeaders);
       }
     }
 

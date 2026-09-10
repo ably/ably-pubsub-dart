@@ -57,6 +57,7 @@ class RealtimeChannelImpl implements RealtimeChannel {
     required AblyHttpClient httpClient,
     required LocalDevice? Function() getDevice,
     required Logger logger,
+    Future<LocalDevice?> Function()? loadDevice,
     RealtimeChannelOptions? channelOptions,
   })  : _connection = connection,
         _timerManager = timerManager,
@@ -81,6 +82,7 @@ class RealtimeChannelImpl implements RealtimeChannel {
       channelName: name,
       httpClient: httpClient,
       getDevice: getDevice,
+      loadDevice: loadDevice,
     );
   }
 

@@ -87,9 +87,22 @@ abstract class RealtimeClient {
 
   /// The local device for push notifications.
   ///
+  /// Returns the current in-memory device, or null when it has not been
+  /// loaded yet; use [getDevice] to load it from persisted state.
+  ///
   /// Spec: RSH8
   LocalDevice? get device;
   set device(LocalDevice? device);
+
+  /// Returns the [LocalDevice] representing the current state of the device
+  /// in respect of it being a target for push notifications, loading it
+  /// from persisted state on first call.
+  ///
+  /// Requires a push platform to be configured via
+  /// `ClientOptions.pushPlatform`.
+  ///
+  /// Spec: RSH8, RSH8a
+  Future<LocalDevice> getDevice();
 
   /// The client options for this client.
   ///

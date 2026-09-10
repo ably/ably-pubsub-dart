@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 
 import '../auth/auth.dart';
-import '../push/local_device.dart';
 import '../push/push.dart';
 import '../realtime/connection.dart';
 import '../realtime/protocol_message.dart';
@@ -66,6 +65,8 @@ class RealtimeClientImpl extends BaseClientImpl implements RealtimeClient {
       options: options,
       httpClient: ablyHttpClient,
       getDevice: () => device,
+      loadDevice: () async =>
+          options.pushPlatform != null ? await getDevice() : device,
       logger: logger,
     );
 
@@ -73,6 +74,9 @@ class RealtimeClientImpl extends BaseClientImpl implements RealtimeClient {
     _push = PushImpl(
       httpClient: ablyHttpClient,
       logger: logger,
+      options: options,
+      getActivation: () => pushActivation,
+      getDevice: () => device,
     );
 
     // Wire up channel message dispatch
@@ -109,9 +113,6 @@ class RealtimeClientImpl extends BaseClientImpl implements RealtimeClient {
 
   @override
   RealtimeChannels get channels => _channels;
-
-  @override
-  LocalDevice? device;
 
   @override
   Future<void> connect() async {

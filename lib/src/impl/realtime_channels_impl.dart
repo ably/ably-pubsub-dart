@@ -32,11 +32,13 @@ class RealtimeChannelsImpl implements RealtimeChannels {
     required AblyHttpClient httpClient,
     required LocalDevice? Function() getDevice,
     required Logger logger,
+    Future<LocalDevice?> Function()? loadDevice,
   })  : _connection = connection,
         _timerManager = timerManager,
         _options = options,
         _httpClient = httpClient,
         _getDevice = getDevice,
+        _loadDevice = loadDevice,
         _logger = logger {
     // RTL3: Propagate connection state changes to channels
     _connectionSubscription = _connection.on().listen(_onConnectionStateChange);
@@ -47,6 +49,7 @@ class RealtimeChannelsImpl implements RealtimeChannels {
   final ClientOptions _options;
   final AblyHttpClient _httpClient;
   final LocalDevice? Function() _getDevice;
+  final Future<LocalDevice?> Function()? _loadDevice;
   final Logger _logger;
   final Map<String, RealtimeChannelImpl> _channels = {};
   late final StreamSubscription<ConnectionStateChange> _connectionSubscription;
@@ -107,6 +110,7 @@ class RealtimeChannelsImpl implements RealtimeChannels {
       restAnnotations: restAnnotations,
       httpClient: _httpClient,
       getDevice: _getDevice,
+      loadDevice: _loadDevice,
       logger: _logger,
       channelOptions: options,
     );

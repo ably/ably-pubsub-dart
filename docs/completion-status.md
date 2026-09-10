@@ -313,12 +313,12 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
 | RSH1 | Push#admin object (RSH1a–RSH1c5) | Yes — `rest/unit/push/push_admin_publish_test.dart`, `rest/unit/push/push_device_registrations_test.dart`, `rest/unit/push/push_channel_subscriptions_test.dart`, `rest/integration/push_admin_test.dart` |
-| RSH2 | Platform-specific push operations (RSH2a–RSH2e) | |
-| RSH3 | Activation state machine (RSH3a–RSH3g3) | |
-| RSH4–RSH5 | Event queueing and sequential handling | |
-| RSH6 | Push device authentication (RSH6a–RSH6b) | |
+| RSH2 | Platform-specific push operations (RSH2a–RSH2f3) | Yes — `rest/unit/push/push_activation_state_machine_test.dart`, `rest/unit/push/push_update_token_test.dart`, `rest/integration/push_activation_test.dart` |
+| RSH3 | Activation state machine (RSH3a–RSH3h) | Yes — `rest/unit/push/push_activation_state_machine_test.dart`, `rest/unit/push/push_activation_persistence_test.dart`, `rest/integration/push_activation_test.dart` |
+| RSH4–RSH5 | Event queueing and sequential handling | Yes — `rest/unit/push/push_activation_event_queue_test.dart`, `rest/unit/push/push_update_token_test.dart` |
+| RSH6 | Push device authentication (RSH6a–RSH6b) | Yes — `rest/unit/push/push_device_auth_test.dart`, `rest/unit/push/push_activation_state_machine_test.dart` |
 | RSH7 | Push channels (RSH7a–RSH7e) | Yes — `rest/unit/push/push_channels_test.dart`, `rest/integration/push_channels_test.dart` |
-| RSH8 | LocalDevice (RSH8a–RSH8k2) | |
+| RSH8 | LocalDevice (RSH8a–RSH8l4) | Yes — `rest/unit/push/local_device_test.dart`, `rest/unit/push/push_activation_persistence_test.dart`, `rest/unit/push/push_update_token_test.dart` |
 
 ---
 
@@ -370,9 +370,10 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| PCS1–PCS5 | PushChannelSubscription | |
-| PCD1–PCD7 | DeviceDetails | |
-| PCP1–PCP4 | DevicePushDetails | |
+| PCS1–PCS5 | PushChannelSubscription | Yes — `rest/unit/types/push_types_test.dart` |
+| PCD1–PCD7 | DeviceDetails | Yes — `rest/unit/types/push_types_test.dart` |
+| PCP1–PCP4 | DevicePushDetails | Partial — `rest/unit/types/push_types_test.dart`, `rest/unit/push/push_update_token_test.dart` (PCP3a token variants) |
+| PDT1–PDT4 | PushDeviceToken | Yes — `rest/unit/push/push_update_token_test.dart` |
 
 ### Client Library Introspection
 
@@ -424,11 +425,11 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 | **EventEmitter** (RTE) | 6 | 0 | None |
 | **Backoff/jitter** (RTB) | 1 | 1 | Full |
 | **Wrapper SDK** (WP) | 7 | 0 | None |
-| **Push notifications** (RSH) | 8 | 2 | Partial |
+| **Push notifications** (RSH) | 8 | 8 | Full |
 | **Plugins** (PC/PT/VD) | 3 | 2 | Partial |
 | **Data types** | 30 | 14 | Partial |
 | **Option types** | 8 | 5 | Partial |
-| **Push types** | 3 | 0 | None |
+| **Push types** | 4 | 4 | Full |
 | **Introspection** (CR) | 1 | 0 | None |
 | **Defaults** (DF) | 1 | 0 | None |
 | **Compatibility** (RSF/RTF) | 2 | 2 | Full |

@@ -6,7 +6,6 @@ import '../batch/batch_result.dart';
 import '../channels/channels.dart';
 import '../error/ably_exception.dart';
 import '../error/error_info.dart';
-import '../push/local_device.dart';
 import '../push/push.dart';
 import '../rest/rest_client.dart';
 import 'base_client_impl.dart';
@@ -25,10 +24,15 @@ class RestClientImpl extends BaseClientImpl implements RestClient {
       options: options,
       logger: logger,
       getDevice: () => device,
+      loadDevice: () async =>
+          options.pushPlatform != null ? await getDevice() : device,
     );
     _push = PushImpl(
       httpClient: ablyHttpClient,
       logger: logger,
+      options: options,
+      getActivation: () => pushActivation,
+      getDevice: () => device,
     );
   }
 
@@ -40,9 +44,6 @@ class RestClientImpl extends BaseClientImpl implements RestClient {
 
   @override
   Push get push => _push;
-
-  @override
-  LocalDevice? device;
 
   @override
   Future<List<BatchResult>> batchPublish(

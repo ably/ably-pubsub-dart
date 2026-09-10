@@ -14,15 +14,18 @@ class RestChannelsImpl extends Iterable<RestChannel> implements RestChannels {
     required ClientOptions options,
     required Logger logger,
     required LocalDevice? Function() getDevice,
+    Future<LocalDevice?> Function()? loadDevice,
   })  : _httpClient = httpClient,
         _options = options,
         _logger = logger,
-        _getDevice = getDevice;
+        _getDevice = getDevice,
+        _loadDevice = loadDevice;
 
   final AblyHttpClient _httpClient;
   final ClientOptions _options;
   final Logger _logger;
   final LocalDevice? Function() _getDevice;
+  final Future<LocalDevice?> Function()? _loadDevice;
   final Map<String, RestChannelImpl> _channels = {};
 
   @override
@@ -35,6 +38,7 @@ class RestChannelsImpl extends Iterable<RestChannel> implements RestChannels {
         options: _options,
         logger: _logger,
         getDevice: _getDevice,
+        loadDevice: _loadDevice,
         channelOptions: options,
       );
       _channels[name] = channel;

@@ -1,8 +1,37 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
+import 'package:msgpack_dart/msgpack_dart.dart' as msgpack;
+
+/// Decodes a captured request body, whatever wire format the SDK used.
+///
+/// The UTS mock spec (`mock_http.md`) exposes the request body as bytes and
+/// the test specs decode it with `parse_json`; the harness is responsible
+/// for decoding the SDK's configured wire format. With the default
+/// `useBinaryProtocol: true` the body is msgpack, so fall back to msgpack
+/// deserialization (with string-keyed maps) when JSON decoding fails.
+dynamic _decodeBody(List<int> body) {
+  try {
+    return json.decode(utf8.decode(body));
+  } on FormatException {
+    return _stringKeyed(msgpack.deserialize(Uint8List.fromList(body)));
+  }
+}
+
+dynamic _stringKeyed(dynamic value) {
+  if (value is Map) {
+    return value.map<String, dynamic>(
+      (key, item) => MapEntry(key.toString(), _stringKeyed(item)),
+    );
+  }
+  if (value is List) {
+    return value.map(_stringKeyed).toList();
+  }
+  return value;
+}
 
 /// Callback for handling connection attempts in the mock HTTP client.
 typedef ConnectionHandler = void Function(PendingConnection connection);
@@ -234,8 +263,9 @@ class PendingRequest {
   /// Gets the request body as a string (UTF-8 decoded).
   String get bodyAsString => utf8.decode(body);
 
-  /// Gets the request body parsed as JSON.
-  dynamic get jsonBody => json.decode(bodyAsString);
+  /// Gets the request body decoded from the SDK's wire format (JSON, or
+  /// msgpack when `useBinaryProtocol` is in effect).
+  dynamic get jsonBody => _decodeBody(body);
 
   /// Responds with the specified status code, body, and optional headers.
   void respondWith(
@@ -304,7 +334,7 @@ class CapturedRequest {
 
   String? get body => bodyAsString;
 
-  /// Parses the body as JSON.
-  dynamic get jsonBody =>
-      bodyBytes.isNotEmpty ? json.decode(bodyAsString) : null;
+  /// The body decoded from the SDK's wire format (JSON, or msgpack when
+  /// `useBinaryProtocol` is in effect).
+  dynamic get jsonBody => bodyBytes.isNotEmpty ? _decodeBody(bodyBytes) : null;
 }

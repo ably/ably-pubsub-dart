@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 
 import '../logging/log_handler.dart';
 import '../logging/log_level.dart';
+import '../push/push_platform.dart';
 import 'auth_options.dart';
 import 'token_details.dart';
 import 'token_params.dart';
@@ -56,6 +57,7 @@ class ClientOptions extends AuthOptions {
     int channelRetryTimeout = 15000,
     String? recover,
     Map<String, Object>? plugins,
+    PushPlatformConfig? pushPlatform,
   }) {
     return ClientOptions._(
       key: key,
@@ -97,6 +99,7 @@ class ClientOptions extends AuthOptions {
       channelRetryTimeout: channelRetryTimeout,
       recover: recover,
       plugins: plugins,
+      pushPlatform: pushPlatform,
     );
   }
 
@@ -143,6 +146,7 @@ class ClientOptions extends AuthOptions {
     this.channelRetryTimeout = 15000,
     this.recover,
     this.plugins,
+    this.pushPlatform,
   });
 
   /// Creates ClientOptions from an API key string.
@@ -326,6 +330,18 @@ class ClientOptions extends AuthOptions {
   /// Spec: TO3o, PC1, PC2, PC3
   final Map<String, Object>? plugins;
 
+  /// The push platform for this client.
+  ///
+  /// Platforms that support receiving push notifications supply this,
+  /// carrying the platform primitives (persistent storage and push transport
+  /// token acquisition) plus the device attributes needed for registration.
+  /// This is the injection point used by push activation tests (see the
+  /// portable helper spec `mock_push_platform.md`).
+  ///
+  /// When absent, push activation is unavailable; only push administration
+  /// (`push.admin`) can be used.
+  final PushPlatformConfig? pushPlatform;
+
   /// Parses the endpoint to determine if it's an explicit hostname (REC1b2).
   ///
   /// Returns true if:
@@ -508,6 +524,7 @@ class ClientOptions extends AuthOptions {
     int? channelRetryTimeout,
     String? recover,
     Map<String, Object>? plugins,
+    PushPlatformConfig? pushPlatform,
   }) {
     return ClientOptions._(
       key: key ?? this.key,
@@ -553,6 +570,7 @@ class ClientOptions extends AuthOptions {
       channelRetryTimeout: channelRetryTimeout ?? this.channelRetryTimeout,
       recover: recover ?? this.recover,
       plugins: plugins ?? this.plugins,
+      pushPlatform: pushPlatform ?? this.pushPlatform,
     );
   }
 

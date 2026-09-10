@@ -35,6 +35,7 @@ class RestChannelImpl implements RestChannel {
     required ClientOptions options,
     required Logger logger,
     required LocalDevice? Function() getDevice,
+    Future<LocalDevice?> Function()? loadDevice,
     RestChannelOptions? channelOptions,
   })  : _name = name,
         _httpClient = httpClient,
@@ -58,6 +59,7 @@ class RestChannelImpl implements RestChannel {
       channelName: name,
       httpClient: httpClient,
       getDevice: getDevice,
+      loadDevice: loadDevice,
     );
   }
 

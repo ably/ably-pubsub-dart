@@ -72,6 +72,7 @@ export 'src/push/device_details.dart';
 export 'src/push/device_push_details.dart';
 export 'src/push/local_device.dart';
 export 'src/push/push_channel_subscription.dart';
+export 'src/push/push_platform.dart';
 
 // Stats
 export 'src/stats/stats.dart';

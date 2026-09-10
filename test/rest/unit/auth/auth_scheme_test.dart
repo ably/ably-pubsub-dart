@@ -216,8 +216,14 @@ void main() {
         );
       });
 
-      // UTS: rest/unit/RSA4/auth-callback-triggers-token-2
-      test('RSA4b - key + clientId triggers token auth', () async {
+      // No UTS spec: key + clientId retains basic auth; the clientId is
+      // conveyed via the X-Ably-ClientId header per RSA7e2. (This test
+      // previously asserted that key + clientId triggers token auth, which
+      // contradicts features spec RSA7e2 and the push activation UTS specs,
+      // e.g. uts/rest/unit/push/push_activation_state_machine.md
+      // RSH3a2a1, whose identified clients must issue no token requests.)
+      test('RSA7e2 - key + clientId uses Basic auth with X-Ably-ClientId',
+          () async {
         final capturedRequests = <CapturedRequest>[];
         final channelName = testChannelName('RSA4b');
 
@@ -261,16 +267,18 @@ void main() {
 
         await client.channels.get(channelName).status();
 
-        // First request should be token creation
+        // The single request uses Basic auth — no token request is made
+        expect(capturedRequests.length, equals(1));
         expect(
-          capturedRequests[0].url.path,
-          contains('requestToken'),
+          capturedRequests[0].headers['Authorization'],
+          startsWith('Basic '),
         );
 
-        // Second request should use Bearer token
+        // RSA7e2 — the clientId travels in the X-Ably-ClientId header,
+        // Base64 encoded
         expect(
-          capturedRequests[1].headers['Authorization'],
-          startsWith('Bearer '),
+          capturedRequests[0].headers['X-Ably-ClientId'],
+          equals(base64.encode(utf8.encode('my-client'))),
         );
       });
 
