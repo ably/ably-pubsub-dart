@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 import 'package:test/test.dart';
 
 /// PresenceMessage Types Tests

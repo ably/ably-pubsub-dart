@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 import '../../../helpers/mock_http_client.dart';
 
 /// Unit tests for REST channel attributes and methods (RSL7, RSL8, RSL9).
