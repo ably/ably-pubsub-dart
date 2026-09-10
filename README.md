@@ -1,4 +1,4 @@
-[![pub package](https://img.shields.io/pub/v/ably.svg)](https://pub.dev/packages/ably)
+[![pub package](https://img.shields.io/pub/v/ably_pubsub_device.svg)](https://pub.dev/packages/ably_pubsub_device)
 [![License](https://img.shields.io/github/license/ably/ably-pubsub-dart)](https://github.com/ably/ably-pubsub-dart/blob/main/LICENSE)
 
 ---
@@ -38,11 +38,11 @@ This is a pure Dart package with no platform-specific dependencies. It runs anyw
 
 ## Installation
 
-The Dart SDK is available as a [pub.dev package](https://pub.dev/packages/ably). Add it to your `pubspec.yaml`:
+The Dart SDK is available as a [pub.dev package](https://pub.dev/packages/ably_pubsub_device). Add it to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  ably: ^0.2.0
+  ably_pubsub_device: ^0.2.0
 ```
 
 Then run:
@@ -58,7 +58,7 @@ dart pub get
 Use the REST client for stateless operations like publishing messages and querying history:
 
 ```dart
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 
 // Create a REST client
 final rest = RestClient(options: ClientOptions(key: 'your-ably-api-key'));
@@ -81,7 +81,7 @@ for (final message in history.items) {
 Use the Realtime client for persistent connections with live message delivery:
 
 ```dart
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 
 // Create a Realtime client
 final realtime = RealtimeClient(

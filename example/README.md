@@ -1,6 +1,6 @@
 # Ably Dart SDK — Example App
 
-A Flutter application demonstrating the [ably](https://pub.dev/packages/ably) Dart SDK. Runs on macOS, Linux, Windows, Web, Android, and iOS.
+A Flutter application demonstrating the [ably_pubsub_device](https://pub.dev/packages/ably_pubsub_device) Dart SDK. Runs on macOS, Linux, Windows, Web, Android, and iOS.
 
 ## What it demonstrates
 

@@ -1,5 +1,5 @@
-name: ably
-description: Ably REST SDK for Dart - A pure Dart implementation of the Ably REST API.
+name: ably_pubsub_device
+description: Ably PubSub device SDK for Dart - A pure Dart implementation of the Ably API.
 version: 0.2.0
 homepage: https://github.com/ably/ably-pubsub-dart
 repository: https://github.com/ably/ably-pubsub-dart

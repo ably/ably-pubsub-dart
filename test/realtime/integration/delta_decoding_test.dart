@@ -5,8 +5,8 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:ably/ably.dart';
-import 'package:ably/src/impl/realtime_channel_impl.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
+import 'package:ably_pubsub_device/src/impl/realtime_channel_impl.dart';
 import 'package:test/test.dart';
 
 import '../../helpers/poll_until.dart';

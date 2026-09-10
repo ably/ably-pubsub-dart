@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:ably/src/message/message.dart';
+import 'package:ably_pubsub_device/src/message/message.dart';
 import 'package:msgpack_dart/msgpack_dart.dart' as msgpack;
 import 'package:test/test.dart';
 

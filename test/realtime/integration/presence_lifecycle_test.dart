@@ -4,7 +4,7 @@ library;
 import 'dart:math';
 
 import 'package:test/test.dart';
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 
 import '../../helpers/protocol_variants.dart';
 import '../../helpers/test_app_helper.dart';
