@@ -1,6 +1,6 @@
 /// Ably SDK for Dart.
 ///
-/// This library provides a pure Dart implementation of the Ably REST and Realtime APIs.
+/// This library provides a pure Dart implementation of the Ably Realtime API.
 library ably_pubsub_device;
 
 // Authentication
@@ -11,9 +11,6 @@ export 'src/auth/token_details.dart';
 export 'src/auth/token_params.dart';
 export 'src/auth/token_request.dart';
 export 'src/auth/token_revocation.dart';
-
-// REST
-export 'src/rest/rest_client.dart';
 
 // Realtime
 export 'src/realtime/realtime_client.dart';
@@ -36,16 +33,11 @@ export 'src/realtime/realtime_presence.dart';
 
 // Channels
 export 'src/channels/channel_details.dart';
-export 'src/channels/channels.dart';
 export 'src/channels/rest_annotations.dart';
-export 'src/channels/rest_channel.dart';
-export 'src/channels/rest_channel_options.dart';
 export 'src/channels/realtime_history_params.dart';
 export 'src/channels/rest_history_params.dart';
 
 // Presence
-export 'src/presence/rest_presence.dart';
-export 'src/presence/rest_presence_params.dart';
 export 'src/presence/presence_action.dart';
 
 // Messages
@@ -75,11 +67,6 @@ export 'src/push/push_channel_subscription.dart';
 
 // Stats
 export 'src/stats/stats.dart';
-
-// Batch operations
-export 'src/batch/batch_presence_result.dart';
-export 'src/batch/batch_publish_spec.dart';
-export 'src/batch/batch_result.dart';
 
 // Pagination
 export 'src/pagination/paginated_result.dart';

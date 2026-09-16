@@ -297,11 +297,9 @@ class RealtimeSliver extends HookWidget {
                       ' published before you are attached to the channel.'),
               TextRow(
                   'Warning',
-                  'If you are already attached to the channel, you must'
-                      ' detach and re-attach to get the latest messages '
-                      'published on the channel to get history whilst '
-                      'connected to a realtime channel, use '
-                      'RestChannel.history instead.'),
+                  'untilAttach only returns messages published before the '
+                      'current attachment. Omit untilAttach to query the '
+                      'full channel history whilst attached.'),
             ],
           ),
           query: () => channel.history(

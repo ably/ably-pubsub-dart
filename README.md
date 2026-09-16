@@ -53,31 +53,6 @@ dart pub get
 
 ## Usage
 
-### REST
-
-Use the REST client for stateless operations like publishing messages and querying history:
-
-```dart
-import 'package:ably_pubsub_device/ably_pubsub_device.dart';
-
-// Create a REST client
-final rest = RestClient(options: ClientOptions(key: 'your-ably-api-key'));
-
-// Get a channel
-final channel = rest.channels.get('test-channel');
-
-// Publish a message
-await channel.publish(name: 'greeting', data: 'hello world');
-
-// Retrieve message history
-final history = await channel.history();
-for (final message in history.items) {
-  print('${message.name}: ${message.data}');
-}
-```
-
-### Realtime
-
 Use the Realtime client for persistent connections with live message delivery:
 
 ```dart
@@ -100,6 +75,12 @@ await channel.subscribe(listener: (message) {
 
 // Publish a message
 await channel.publish(name: 'greeting', data: 'hello world');
+
+// Retrieve message history
+final history = await channel.history();
+for (final message in history.items) {
+  print('${message.name}: ${message.data}');
+}
 ```
 
 ---

@@ -10,7 +10,7 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 - *blank* — no Dart test exists
 - **N/A** — not applicable or deleted spec item
 
-**Test counts:** 1113 passing, 0 failing, 24 skipped (integration tests requiring sandbox/proxy)
+**Test counts:** 537 passing, 0 failing, 1 skipped (`dart test`, the unit suite). The integration and proxy suites (`dart test -P integration`, `-P proxy`) need a sandbox app and the local test proxy.
 
 ---
 
@@ -24,87 +24,94 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| REC1 | Primary domain determination (REC1a–REC1b4) | Yes — `rest/unit/client/fallback_test.dart` |
-| REC2 | Fallback domains determination (REC2a2–REC2c4) | Yes — `rest/unit/client/fallback_test.dart` |
-| REC3 | Connectivity check URL (REC3a–REC3b) | Yes — `rest/unit/client/fallback_test.dart` |
+| REC1 | Primary domain determination (REC1a–REC1b4) | Partial — `realtime/unit/connection/fallback_hosts_test.dart` |
+| REC2 | Fallback domains determination (REC2a2–REC2c4) | Partial — `realtime/unit/connection/fallback_hosts_test.dart` (RTN17h) |
+| REC3 | Connectivity check URL (REC3a–REC3b) | Partial — `realtime/unit/connection/fallback_hosts_test.dart` (RTN17j) |
 
 ---
 
-## REST Client Library
+## REST (HTTP) Layer
 
-### RestClient
+The SDK does not ship a standalone REST client. The spec items below are still
+implemented and are reached through the Realtime client: `time()`, `stats()`,
+`request()`, channel `history()`/`status()`/`getMessage()`/message
+update-delete-append, presence `history()`, and push admin.
+
+Spec items that only exist on a REST client (`RestClient`, `RestChannel`,
+`RestPresence`, batch publish and batch presence) are marked N/A.
+
+### HTTP client (RSC)
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RSC1 | Constructor options (RSC1a–RSC1c) | Yes — `rest/unit/client/client_options_test.dart` |
-| RSC2 | Logger default | Yes — `rest/unit/client/logging_test.dart` |
-| RSC3 | Log level configuration | Yes — `rest/unit/client/logging_test.dart` |
-| RSC4 | Custom logger | Yes — `rest/unit/client/logging_test.dart` |
-| RSC5 | Auth object attribute | Yes — `rest/unit/client/rest_client_test.dart` |
-| RSC6 | Stats function (RSC6a–RSC6b4) | Yes — `rest/unit/client/stats_test.dart`, `rest/integration/time_stats_test.dart` |
-| RSC7 | HTTP request headers (RSC7a–RSC7d7) | Yes — `rest/unit/client/rest_client_test.dart` |
-| RSC8 | Protocol support (RSC8a–RSC8e2) | Yes — `rest/unit/client/rest_client_test.dart` |
+| RSC1 | Constructor options (RSC1a–RSC1c) | N/A — no REST client; see RTC1 |
+| RSC2 | Logger default | |
+| RSC3 | Log level configuration | |
+| RSC4 | Custom logger | |
+| RSC5 | Auth object attribute | |
+| RSC6 | Stats function (RSC6a–RSC6b4) | |
+| RSC7 | HTTP request headers (RSC7a–RSC7d7) | |
+| RSC8 | Protocol support (RSC8a–RSC8e2) | |
 | RSC9 | Auth usage for authentication | Information only |
-| RSC10 | Token error retry handling | Yes — `rest/unit/auth/token_renewal_rsc10_test.dart`, `rest/unit/auth/token_renewal_test.dart`, `rest/integration/auth_test.dart` |
-| RSC13 | Connection and request timeouts | Yes — `rest/unit/client/rest_client_test.dart` |
-| RSC15 | Host fallback behaviour (RSC15a–RSC15n) | Yes — `rest/unit/client/fallback_test.dart` |
-| RSC16 | Time function | Yes — `rest/unit/client/time_test.dart`, `rest/integration/time_stats_test.dart` |
-| RSC17 | ClientId attribute | Yes — `rest/unit/client/rest_client_test.dart` |
-| RSC18 | TLS configuration | Yes — `rest/unit/client/rest_client_test.dart`, `rest/unit/client/time_test.dart` |
-| RSC19 | Request function (RSC19a–RSC19f1) | Yes — `rest/unit/client/request_test.dart` |
+| RSC10 | Token error retry handling | |
+| RSC13 | Connection and request timeouts | |
+| RSC15 | Host fallback behaviour (RSC15a–RSC15n) | Partial — `realtime/unit/connection/fallback_hosts_test.dart` (RTN17e) |
+| RSC16 | Time function | |
+| RSC17 | ClientId attribute | |
+| RSC18 | TLS configuration | |
+| RSC19 | Request function (RSC19a–RSC19f1) | |
 | RSC20 | Deprecated exception reporting (RSC20a–RSC20f) | N/A |
-| RSC21 | Push object attribute | Yes — `rest/unit/push/push_admin_publish_test.dart` |
-| RSC22 | BatchPublish (RSC22a–RSC22d) | Yes — `rest/unit/client/batch_publish_test.dart` |
+| RSC21 | Push object attribute | |
+| RSC22 | BatchPublish (RSC22a–RSC22d) | N/A — REST-only API, not implemented |
 | RSC23 | Deleted | N/A |
-| RSC24 | BatchPresence | Yes — `rest/unit/batch_presence_test.dart`, `rest/integration/batch_presence_test.dart` |
-| RSC25 | Request endpoint | Yes — `rest/unit/client/request_endpoint_test.dart` |
+| RSC24 | BatchPresence | N/A — REST-only API, not implemented |
+| RSC25 | Request endpoint | |
 | RSC26 | CreateWrapperSDKProxy (RSC26a–RSC26c) | |
 
 ### Auth
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RSA1 | Basic Auth requires HTTPS | Yes — `rest/unit/auth/auth_scheme_test.dart` |
-| RSA2 | Basic Auth default | Yes — `rest/unit/auth/auth_scheme_test.dart` |
-| RSA3 | Token Auth support (RSA3a–RSA3d) | Yes — `rest/unit/auth/auth_scheme_test.dart` |
-| RSA4 | Token Auth selection logic (RSA4a–RSA4g) | Yes — `rest/unit/auth/auth_scheme_test.dart`, `rest/unit/auth/token_renewal_test.dart`, `realtime/unit/auth/connection_auth_test.dart`, `realtime/unit/auth/token_expiry_non_renewable_test.dart`, `realtime/unit/auth/auth_callback_errors_test.dart` |
-| RSA5 | TTL for tokens | Yes — `rest/unit/auth/token_request_params_test.dart`, `rest/integration/auth_test.dart` |
-| RSA6 | Capability JSON | Yes — `rest/unit/auth/token_request_params_test.dart`, `rest/integration/auth_test.dart` |
-| RSA7 | ClientId and authenticated clients (RSA7a–RSA7e2) | Partial — `rest/unit/auth/client_id_test.dart`, `realtime/integration/auth_test.dart` |
-| RSA8 | RequestToken function (RSA8a–RSA8g) | Partial — `rest/unit/auth/auth_callback_test.dart`, `realtime/unit/auth/connection_auth_test.dart`, `rest/integration/auth_test.dart` |
-| RSA9 | CreateTokenRequest (RSA9a–RSA9i) | Partial — `rest/integration/auth_test.dart` |
-| RSA10 | Authorize function (RSA10a–RSA10l) | Yes — `rest/unit/auth/authorize_test.dart` |
-| RSA11 | Base64 encoded API key | Yes — `rest/unit/auth/auth_scheme_test.dart` |
-| RSA12 | Auth#clientId attribute (RSA12a–RSA12b) | Yes — `rest/unit/auth/client_id_test.dart` |
-| RSA14 | Error when token auth selected without token | Yes — `rest/unit/auth/token_renewal_test.dart`, `rest/integration/auth_test.dart` |
-| RSA15 | ClientId validation (RSA15a–RSA15c) | Yes — `rest/unit/auth/client_id_test.dart`, `realtime/integration/auth_test.dart` |
-| RSA16 | TokenDetails attribute (RSA16a–RSA16d) | Yes — `rest/unit/auth/token_details_test.dart` |
-| RSA17 | RevokeTokens (RSA17a–RSA17g) | Yes — `rest/unit/auth/revoke_tokens_test.dart`, `rest/integration/revoke_tokens_test.dart` |
+| RSA1 | Basic Auth requires HTTPS | |
+| RSA2 | Basic Auth default | |
+| RSA3 | Token Auth support (RSA3a–RSA3d) | |
+| RSA4 | Token Auth selection logic (RSA4a–RSA4g) | Partial — `realtime/unit/auth/connection_auth_test.dart`, `realtime/unit/auth/token_expiry_non_renewable_test.dart`, `realtime/unit/auth/auth_callback_errors_test.dart` |
+| RSA5 | TTL for tokens | |
+| RSA6 | Capability JSON | |
+| RSA7 | ClientId and authenticated clients (RSA7a–RSA7e2) | Partial — `realtime/integration/auth_test.dart` |
+| RSA8 | RequestToken function (RSA8a–RSA8g) | Partial — `realtime/unit/auth/connection_auth_test.dart` |
+| RSA9 | CreateTokenRequest (RSA9a–RSA9i) | |
+| RSA10 | Authorize function (RSA10a–RSA10l) | Partial — `realtime/unit/auth/realtime_authorize_test.dart` (RTC8) |
+| RSA11 | Base64 encoded API key | |
+| RSA12 | Auth#clientId attribute (RSA12a–RSA12b) | |
+| RSA14 | Error when token auth selected without token | |
+| RSA15 | ClientId validation (RSA15a–RSA15c) | Partial — `realtime/integration/auth_test.dart` |
+| RSA16 | TokenDetails attribute (RSA16a–RSA16d) | |
+| RSA17 | RevokeTokens (RSA17a–RSA17g) | |
 
 ### Channels (REST)
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RSN1–RSN4 | REST channels collection (RSN1–RSN4c) | Yes — `rest/unit/channel/channels_collection_test.dart` |
+| RSN1–RSN4 | REST channels collection (RSN1–RSN4c) | N/A — REST-only API, not implemented |
 
 ### RestChannel
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RSL1 | Publish function (RSL1a–RSL1n1) | Yes — `rest/unit/channel/publish_test.dart`, `rest/unit/channel/publish_result_test.dart`, `rest/integration/publish_test.dart`, `rest/integration/mutable_messages_test.dart` |
-| RSL1k | Idempotent publishing (RSL1k1–RSL1k5) | Yes — `rest/unit/channel/idempotency_test.dart` |
-| RSL2 | History function (RSL2a–RSL2b3) | Yes — `rest/unit/channel/history_test.dart`, `rest/integration/history_test.dart` |
-| RSL3 | Presence attribute | Yes — `rest/unit/presence/rest_presence_test.dart` |
-| RSL4 | Message encoding (RSL4a–RSL4d4) | Yes — `rest/unit/encoding/message_encoding_test.dart` |
-| RSL5 | Message encryption (RSL5a–RSL5c) | |
-| RSL6 | Message decoding (RSL6a–RSL6b) | Yes — `rest/unit/encoding/message_encoding_test.dart` |
-| RSL7 | SetOptions function | Yes — `rest/unit/channel/rest_channel_attributes_test.dart` |
-| RSL8 | Status function (RSL8a) | Yes — `rest/unit/channel/rest_channel_attributes_test.dart` |
-| RSL9 | Name attribute | Yes — `rest/unit/channel/rest_channel_attributes_test.dart` |
-| RSL10 | Annotations attribute | Yes — `rest/unit/channel/annotations_test.dart` |
-| RSL11 | GetMessage function (RSL11a–RSL11c) | Yes — `rest/unit/channel/get_message_test.dart`, `rest/integration/mutable_messages_test.dart` |
-| RSL14 | GetMessageVersions (RSL14a–RSL14c) | Yes — `rest/unit/channel/message_versions_test.dart`, `rest/integration/mutable_messages_test.dart` |
-| RSL15 | UpdateMessage/DeleteMessage/AppendMessage (RSL15a–RSL15f) | Yes — `rest/unit/channel/update_delete_message_test.dart`, `rest/integration/mutable_messages_test.dart` |
+| RSL1–RSL15 | RestChannel publish, history, status, message get/update/delete | N/A — REST-only API, not implemented. The equivalent Realtime operations are covered under RTL. |
+
+### RestPresence
+
+| Spec item | Description | Dart test |
+|-----------|-------------|-----------|
+| RSP1–RSP5 | RestPresence get, history, decoding | N/A — REST-only API, not implemented. Realtime presence history is covered under RTP. |
+
+### RestAnnotations
+
+| Spec item | Description | Dart test |
+|-----------|-------------|-----------|
+| RSAN1–RSAN3 | Annotations publish/delete/get | Partial — `realtime/unit/channels/channel_annotations_test.dart` |
 
 ### Plugins
 
@@ -114,16 +121,6 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 | PT1–PT2 | PluginType enum | |
 | VD1–VD2 | VCDiffDecoder | Partial — mock at `test/helpers/mock_vcdiff.dart` |
 
-### RestPresence
-
-| Spec item | Description | Dart test |
-|-----------|-------------|-----------|
-| RSP1 | Associated with single channel | Yes — `rest/unit/presence/rest_presence_test.dart`, `rest/integration/presence_test.dart` |
-| RSP2 | No presence registration via REST | Information only |
-| RSP3 | Get function (RSP3a–RSP3a3) | Yes — `rest/unit/presence/rest_presence_test.dart`, `rest/integration/presence_test.dart` |
-| RSP4 | History function (RSP4a–RSP4b3) | Yes — `rest/unit/presence/rest_presence_test.dart`, `rest/integration/presence_test.dart` |
-| RSP5 | Presence message decoding | Yes — `rest/unit/presence/rest_presence_test.dart`, `rest/integration/presence_test.dart` |
-
 ### Encryption
 
 | Spec item | Description | Dart test |
@@ -131,17 +128,10 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 | RSE1 | Crypto::getDefaultParams (RSE1a–RSE1e) | |
 | RSE2 | Crypto::generateRandomKey (RSE2a–RSE2b) | |
 
-### RestAnnotations
-
-| Spec item | Description | Dart test |
-|-----------|-------------|-----------|
-| RSAN1–RSAN3 | Annotations publish/delete/get | Yes — `rest/unit/channel/annotations_test.dart`, `rest/integration/mutable_messages_test.dart` |
-
 ### Forwards Compatibility (REST)
 
 | Spec item | Description | Dart test |
-|-----------|-------------|-----------|
-| RSF1 | Robustness principle | Yes — `realtime/unit/connection/forwards_compatibility_test.dart` |
+|
 
 ---
 
@@ -155,13 +145,13 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 | RTC2 | Connection object attribute | Yes — `realtime/unit/client/realtime_client_test.dart` |
 | RTC3 | Channels object attribute | Yes — `realtime/unit/client/realtime_client_test.dart` |
 | RTC4 | Auth object attribute (RTC4a) | Yes — `realtime/unit/client/realtime_client_test.dart` |
-| RTC5 | Stats function (RTC5a–RTC5b) | Yes — shared via `rest/unit/client/stats_test.dart` (BaseClientImpl) |
-| RTC6 | Time function (RTC6a) | Yes — shared via `rest/unit/client/time_test.dart` (BaseClientImpl) |
+| RTC5 | Stats function (RTC5a–RTC5b) | |
+| RTC6 | Time function (RTC6a) | |
 | RTC7 | Uses configured timeouts | Yes — `realtime/unit/client/realtime_timeouts_test.dart` |
 | RTC8 | Authorize function for realtime (RTC8a–RTC8c) | Yes — `realtime/unit/auth/realtime_authorize_test.dart`, `realtime/integration/auth_test.dart` |
-| RTC9 | Request function | Yes — shared via `rest/unit/client/request_test.dart` (BaseClientImpl) |
+| RTC9 | Request function | |
 | RTC10–RTC11 | Deleted | N/A |
-| RTC12 | Same constructors as RestClient | Yes — `realtime/unit/client/realtime_client_test.dart` |
+| RTC12 | Same constructors as RestClient | N/A — no REST client |
 | RTC13 | Push object attribute | Yes — `realtime/unit/client/realtime_client_test.dart` |
 | RTC14 | CreateWrapperSDKProxy (RTC14a–RTC14c) | |
 | RTC15 | Connect function (RTC15a) | Yes — `realtime/unit/client/realtime_client_test.dart` |
@@ -312,12 +302,12 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RSH1 | Push#admin object (RSH1a–RSH1c5) | Yes — `rest/unit/push/push_admin_publish_test.dart`, `rest/unit/push/push_device_registrations_test.dart`, `rest/unit/push/push_channel_subscriptions_test.dart`, `rest/integration/push_admin_test.dart` |
+| RSH1 | Push#admin object (RSH1a–RSH1c5) | |
 | RSH2 | Platform-specific push operations (RSH2a–RSH2e) | |
 | RSH3 | Activation state machine (RSH3a–RSH3g3) | |
 | RSH4–RSH5 | Event queueing and sequential handling | |
 | RSH6 | Push device authentication (RSH6a–RSH6b) | |
-| RSH7 | Push channels (RSH7a–RSH7e) | Yes — `rest/unit/push/push_channels_test.dart`, `rest/integration/push_channels_test.dart` |
+| RSH7 | Push channels (RSH7a–RSH7e) | |
 | RSH8 | LocalDevice (RSH8a–RSH8k2) | |
 
 ---
@@ -328,39 +318,39 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| TM1–TM8 | Message (TM1–TM8a1) | Partial — `rest/unit/types/message_types_test.dart`, `rest/unit/types/mutable_message_types_test.dart`, `realtime/unit/channels/message_field_population_test.dart` |
+| TM1–TM8 | Message (TM1–TM8a1) | Partial — `realtime/unit/channels/message_field_population_test.dart` |
 | DE1–DE2 | DeltaExtras | |
-| TP1–TP5 | PresenceMessage | Yes — `rest/unit/types/presence_message_types_test.dart` |
+| TP1–TP5 | PresenceMessage | Partial — `realtime/unit/presence/presence_map_test.dart` |
 | OM1–OM5 | ObjectMessage | |
-| TAN1–TAN3 | Annotation | Yes — `rest/unit/types/mutable_message_types_test.dart` |
+| TAN1–TAN3 | Annotation | Partial — `realtime/unit/channels/channel_annotations_test.dart` |
 | TR1–TR4 | ProtocolMessage | |
-| TG1–TG7 | PaginatedResult | Yes — `rest/unit/types/paginated_result_test.dart`, `rest/integration/pagination_test.dart` |
-| HP1–HP8 | HttpPaginatedResponse | Yes — `rest/unit/client/request_test.dart` |
-| TE1–TE6 | TokenRequest | Yes — `rest/unit/types/token_types_test.dart` |
-| TD1–TD7 | TokenDetails | Yes — `rest/unit/types/token_types_test.dart` |
+| TG1–TG7 | PaginatedResult | Partial — `realtime/unit/channels/channel_history_test.dart` |
+| HP1–HP8 | HttpPaginatedResponse | |
+| TE1–TE6 | TokenRequest | |
+| TD1–TD7 | TokenDetails | Partial — `realtime/unit/auth/connection_auth_test.dart` |
 | TN1–TN3 | Token string | |
 | AD1–AD2 | AuthDetails | |
 | TS1–TS14 | Stats | |
-| TI1–TI5 | ErrorInfo | Yes — `rest/unit/types/error_types_test.dart` |
+| TI1–TI5 | ErrorInfo | Partial — `realtime/unit/connection/connection_failures_test.dart` |
 | TA1–TA5 | ConnectionStateChange | |
 | TH1–TH6 | ChannelStateChange | Yes — `realtime/unit/channels/channel_state_events_test.dart` |
 | TC1–TC2 | Capability | |
 | CD1–CD2 | ConnectionDetails | |
 | CP1–CP2 | ChannelProperties | |
-| CHD1–CHD2, CHS1–CHS2, CHO1–CHO2, CHM1–CHM2 | Channel status types | Yes — `rest/unit/channel/rest_channel_attributes_test.dart` |
-| BAR1–BAR2 | BatchResult | Partial — `rest/unit/batch_presence_test.dart` |
+| CHD1–CHD2, CHS1–CHS2, CHO1–CHO2, CHM1–CHM2 | Channel status types | Partial — `realtime/unit/channels/channel_history_test.dart` (RSL8) |
+| BAR1–BAR2 | BatchResult | N/A — REST-only type, not implemented |
 | PBR1–PBR2 | PublishResult | Yes — `realtime/unit/channels/channel_publish_test.dart` |
-| UDR1–UDR2 | UpdateDeleteResult | Yes — `rest/unit/types/mutable_message_types_test.dart` |
-| TRT1–TRT2, TRS1–TRS2, TRF1–TRF2 | TokenRevocation types | Yes — `rest/unit/auth/revoke_tokens_test.dart` |
+| UDR1–UDR2 | UpdateDeleteResult | Yes — `realtime/unit/channels/channel_update_delete_message_test.dart` (RTL32d) |
+| TRT1–TRT2, TRS1–TRS2, TRF1–TRF2 | TokenRevocation types | |
 | MFI1–MFI2 | MessageFilter | Yes — `realtime/unit/channels/channel_subscribe_test.dart` |
 
 ### Option Types
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| TO1–TO3 | ClientOptions | Yes — `rest/unit/types/options_types_test.dart` |
-| TK1–TK6 | TokenParams | Yes — `rest/unit/types/token_types_test.dart` |
-| AO1–AO2 | AuthOptions | Yes — `rest/unit/types/options_types_test.dart` |
+| TO1–TO3 | ClientOptions | Partial — `realtime/unit/client/realtime_client_test.dart` |
+| TK1–TK6 | TokenParams | |
+| AO1–AO2 | AuthOptions | |
 | TB1–TB4 | ChannelOptions | Yes — `realtime/unit/channels/channel_options_test.dart` |
 | DO1–DO2 | DeriveOptions | Yes — `realtime/unit/channels/channel_options_test.dart` |
 | TZ1–TZ2 | CipherParams | |
@@ -396,7 +386,7 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 | RTN15a–RTN15h3 | Connection resume via proxy | Yes — `realtime/integration/proxy/connection_resume_test.dart` |
 | RTN23a | Heartbeat via proxy | Yes — `realtime/integration/proxy/heartbeat_test.dart` |
 | RTL4f, RTL4h, RTL5f, RTL13a, RTL14 | Channel faults via proxy | Yes — `realtime/integration/proxy/channel_faults_test.dart` |
-| RSC10, RSC15a | REST faults via proxy | Yes — `realtime/integration/proxy/rest_faults_test.dart` |
+| RTL6 | Publish and history through proxy | Yes — `realtime/integration/proxy/publish_history_test.dart` |
 | RTN22 | Auth reauth via proxy | Yes — `realtime/integration/proxy/auth_reauth_test.dart` |
 | RTP17 | Presence reentry via proxy | Yes — `realtime/integration/proxy/presence_reentry_test.dart` |
 
@@ -404,17 +394,23 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 
 ## Summary
 
+The REST client was removed from this SDK, and with it the test suite that
+covered the shared HTTP layer, auth, push admin and the data types. Those spec
+items are still implemented — they are reached through the Realtime client —
+but they are now only covered incidentally by Realtime tests, which is what the
+rows below record.
+
 | Area | Spec groups | With Dart test | Coverage |
 |------|-------------|----------------|----------|
-| **Endpoint config** (REC) | 3 | 3 | Full |
-| **REST client** (RSC) | 18 | 16 | Mostly |
-| **REST auth** (RSA) | 15 | 15 | Full |
-| **REST channels** (RSN) | 1 | 1 | Full |
-| **REST channel** (RSL) | 13 | 12 | Mostly |
-| **REST presence** (RSP) | 5 | 4 | Mostly |
+| **Endpoint config** (REC) | 3 | 3 | Partial |
+| **HTTP client** (RSC) | 18 | 1 | Minimal |
+| **Auth** (RSA) | 15 | 5 | Partial |
+| **REST channels** (RSN) | 1 | — | N/A — removed |
+| **REST channel** (RSL) | 13 | — | N/A — removed |
+| **REST presence** (RSP) | 5 | — | N/A — removed |
 | **REST encryption** (RSE) | 2 | 0 | None |
-| **REST annotations** (RSAN) | 3 | 3 | Full |
-| **Realtime client** (RTC) | 14 | 13 | Mostly |
+| **REST annotations** (RSAN) | 3 | 1 | Partial |
+| **Realtime client** (RTC) | 14 | 10 | Mostly |
 | **Connection** (RTN) | 23 | 18 | Mostly |
 | **Realtime channels** (RTS) | 5 | 5 | Full |
 | **Realtime channel** (RTL) | 28 | 26 | Mostly |
@@ -424,10 +420,10 @@ Each Dart test corresponds to a UTS test spec. Where the UTS spec exists but the
 | **EventEmitter** (RTE) | 6 | 0 | None |
 | **Backoff/jitter** (RTB) | 1 | 1 | Full |
 | **Wrapper SDK** (WP) | 7 | 0 | None |
-| **Push notifications** (RSH) | 8 | 2 | Partial |
+| **Push notifications** (RSH) | 8 | 0 | None |
 | **Plugins** (PC/PT/VD) | 3 | 2 | Partial |
-| **Data types** | 30 | 14 | Partial |
-| **Option types** | 8 | 5 | Partial |
+| **Data types** | 30 | 7 | Partial |
+| **Option types** | 8 | 1 | Minimal |
 | **Push types** | 3 | 0 | None |
 | **Introspection** (CR) | 1 | 0 | None |
 | **Defaults** (DF) | 1 | 0 | None |

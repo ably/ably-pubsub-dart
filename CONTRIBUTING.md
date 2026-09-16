@@ -31,7 +31,7 @@ dart pub get
 dart test
 
 # Specific test file
-dart test test/unit/rest/channels_test.dart
+dart test test/realtime/unit/channels/channel_publish_test.dart
 
 # With stack traces (helpful for debugging)
 dart test --chain-stack-traces

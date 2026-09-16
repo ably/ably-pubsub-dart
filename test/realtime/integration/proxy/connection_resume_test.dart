@@ -306,17 +306,19 @@ void main() {
       );
       addTearDown(session.close);
 
-      // Get a real token via REST (no key/callback = non-renewable)
+      // Get a real token (no key/callback on the client under test, so the
+      // token is non-renewable)
       final apiKey = testApp.keys[0].keyStr;
-      final restClient = RestClient(
+      final tokenClient = RealtimeClient(
         options: ClientOptions(
           key: apiKey,
           endpoint: 'nonprod:sandbox',
           useBinaryProtocol: false,
+          autoConnect: false,
         ),
       );
-      final tokenDetails = await restClient.auth.requestToken();
-      await restClient.close();
+      final tokenDetails = await tokenClient.auth.requestToken();
+      await tokenClient.close();
       final tokenString = tokenDetails.token!;
 
       final client = RealtimeClient(
