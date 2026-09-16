@@ -37,8 +37,8 @@ void main() {
       addTearDown(() async => await session.close());
 
       // Create Realtime client
-      final pubSubClient = PubSubClient(
-        options: ClientOptions(
+      final pubSubClient = createClient(
+        ClientOptions(
           authCallback: (params) async {
             return JwtHelper.generateToken(apiKey: apiKey);
           },

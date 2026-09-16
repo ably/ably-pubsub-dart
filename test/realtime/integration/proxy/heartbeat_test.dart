@@ -48,8 +48,8 @@ void main() {
       final apiKey = testApp.keys[0].keyStr;
       final stateChanges = <ConnectionStateChange>[];
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,

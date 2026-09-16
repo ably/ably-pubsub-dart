@@ -29,8 +29,8 @@ void main() {
     test('RTL10d - History contains messages published by another client',
         () async {
       // Create two Realtime clients
-      final publisher = PubSubClient(
-        options: ClientOptions(
+      final publisher = createClient(
+        ClientOptions(
           key: testApp.keys[0].keyStr,
           endpoint: 'nonprod:sandbox',
           useBinaryProtocol: protocol == 'msgpack',
@@ -39,8 +39,8 @@ void main() {
       );
       addTearDown(() async => await publisher.close());
 
-      final subscriber = PubSubClient(
-        options: ClientOptions(
+      final subscriber = createClient(
+        ClientOptions(
           key: testApp.keys[0].keyStr,
           endpoint: 'nonprod:sandbox',
           useBinaryProtocol: protocol == 'msgpack',

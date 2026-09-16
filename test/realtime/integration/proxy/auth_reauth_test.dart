@@ -36,8 +36,8 @@ void main() {
         final session = await ProxySession.create();
         addTearDown(() async => await session.close());
 
-        final client = PubSubClient(
-          options: ClientOptions(
+        final client = createClient(
+          ClientOptions(
             authCallback: (params) async {
               authCallbackCount++;
               return JwtHelper.generateToken(apiKey: apiKey);

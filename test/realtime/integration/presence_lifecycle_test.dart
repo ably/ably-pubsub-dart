@@ -26,8 +26,8 @@ void main() {
       (protocol) {
     /// Helper to create a Realtime client with optional clientId.
     PubSubClient buildClient({String? clientId, bool autoConnect = false}) =>
-        PubSubClient(
-          options: ClientOptions(
+        createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',

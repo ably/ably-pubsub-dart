@@ -9,8 +9,8 @@ void main() {
   group('PubSubClient - UTS Tests', () {
     // UTS: realtime/unit/RTC2/connection-attribute-0
     test('RTC2 - connection attribute exists', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -22,8 +22,8 @@ void main() {
 
     // UTS: realtime/unit/RTC3/channels-attribute-0
     test('RTC3 - channels attribute exists and can get channels', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -51,8 +51,8 @@ void main() {
 
     // UTS: realtime/unit/RTC4/auth-attribute-0
     test('RTC4 - auth attribute exists', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -65,8 +65,8 @@ void main() {
     // UTS: realtime/unit/RTC17/client-id-attribute-0
     test('RTC17 - clientId attribute returns auth clientId', () {
       // Test with no clientId
-      final realtime1 = PubSubClient(
-        options: ClientOptions(
+      final realtime1 = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -74,8 +74,8 @@ void main() {
       expect(realtime1.clientId, isNull);
 
       // Test with clientId in options
-      final realtime2 = PubSubClient(
-        options: ClientOptions(
+      final realtime2 = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           clientId: 'test-client-id',
           autoConnect: false,
@@ -87,8 +87,8 @@ void main() {
     // UTS: realtime/unit/RTC1a/echo-messages-option-0
     test('RTC1a - echoMessages option in query parameters', () {
       // Test default value (true)
-      final realtime1 = PubSubClient(
-        options: ClientOptions(
+      final realtime1 = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -96,8 +96,8 @@ void main() {
       expect(realtime1.options.echoMessages, isTrue);
 
       // Test explicit true
-      final realtime2 = PubSubClient(
-        options: ClientOptions(
+      final realtime2 = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -105,8 +105,8 @@ void main() {
       expect(realtime2.options.echoMessages, isTrue);
 
       // Test explicit false
-      final realtime3 = PubSubClient(
-        options: ClientOptions(
+      final realtime3 = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           echoMessages: false,
           autoConnect: false,
@@ -117,8 +117,8 @@ void main() {
 
     // UTS: realtime/unit/RTC2/connection-attribute-0.1
     test('Connection initial state is initialized', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -128,8 +128,8 @@ void main() {
 
     // UTS: realtime/unit/RTC17/client-id-attribute-0.1
     test('Channel initial state is initialized', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -408,8 +408,8 @@ void main() {
 
     // UTS: realtime/unit/RTC2/connection-attribute-0.4
     test('PubSubClient.close closes connection', () async {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -424,7 +424,7 @@ void main() {
     });
 
     // UTS: realtime/unit/RTC1b/auto-connect-option-0
-    test('Constructor with options parameter', () {
+    test('createClient with options parameter', () {
       final options = ClientOptions(
         key: 'fake.key:secret',
         clientId: 'test-client',
@@ -432,7 +432,7 @@ void main() {
         autoConnect: false,
       );
 
-      final realtime = PubSubClient(options: options);
+      final realtime = createClient(options);
 
       expect(realtime.options.key, equals('fake.key:secret'));
       expect(realtime.clientId, equals('test-client'));
@@ -440,24 +440,18 @@ void main() {
     });
 
     // UTS: realtime/unit/RTC12/constructor-string-detection-0
-    test('Constructor with key parameter overrides options', () {
-      final options = ClientOptions(
-        key: 'old.key:secret',
-        autoConnect: false,
+    test('RTC1b - createClient from an API key via ClientOptions.fromKey', () {
+      final realtime = createClient(
+        ClientOptions.fromKey('fake.key:secret'),
       );
 
-      final realtime = PubSubClient(
-        options: options,
-        key: 'new.key:secret',
-      );
-
-      expect(realtime.options.key, equals('new.key:secret'));
+      expect(realtime.options.key, equals('fake.key:secret'));
     });
 
-    // UTS: realtime/unit/RTC1c/recover-option-0
-    test('Constructor throws when neither options nor key provided', () {
+    // UTS: realtime/unit/RTC12/invalid-arguments-error-0
+    test('ClientOptions.fromKey rejects a malformed key', () {
       expect(
-        () => PubSubClient(),
+        () => ClientOptions.fromKey('invalid-key-format'),
         throwsArgumentError,
       );
     });
@@ -505,8 +499,8 @@ void main() {
 
     // UTS: realtime/unit/RTC5/stats-proxies-rest-0
     test('RTC5 - stats() method is available on PubSubClient', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -520,8 +514,8 @@ void main() {
 
     // UTS: realtime/unit/RTC6/time-proxies-rest-0
     test('RTC6 - time() method is available on PubSubClient', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -533,8 +527,8 @@ void main() {
 
     // UTS: realtime/unit/RTC9/request-proxies-rest-0
     test('RTC9 - request() method is available on PubSubClient', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
@@ -549,8 +543,8 @@ void main() {
       // A key without the "appId.keyName:keySecret" format should
       // throw an error
       expect(
-        () => PubSubClient(
-          options: ClientOptions(
+        () => createClient(
+          ClientOptions(
             key: 'invalid-key-format',
             autoConnect: false,
           ),
@@ -561,8 +555,8 @@ void main() {
 
     // UTS: realtime/unit/RTC13/push-attribute-0
     test('RTC13 - push attribute is accessible', () {
-      final realtime = PubSubClient(
-        options: ClientOptions(
+      final realtime = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),
