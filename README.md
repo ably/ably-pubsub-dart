@@ -53,22 +53,22 @@ dart pub get
 
 ## Usage
 
-Use the Realtime client for persistent connections with live message delivery:
+Use the Pub/Sub client for persistent connections with live message delivery:
 
 ```dart
 import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 
-// Create a Realtime client
-final realtime = RealtimeClient(
+// Create a client
+final client = PubSubClient(
   options: ClientOptions(key: 'your-ably-api-key', clientId: 'me'),
 );
 
 // Wait for connection
-await realtime.connection.once(ConnectionEvent.connected);
+await client.connection.once(ConnectionEvent.connected);
 print('Connected to Ably');
 
 // Get a channel and subscribe
-final channel = realtime.channels.get('test-channel');
+final channel = client.channels.get('test-channel');
 await channel.subscribe(listener: (message) {
   print('Received: ${message.data}');
 });

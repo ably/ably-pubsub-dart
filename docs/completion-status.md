@@ -137,14 +137,14 @@ Spec items that only exist on a REST client (`RestClient`, `RestChannel`,
 
 ## Realtime Client Library
 
-### RealtimeClient
+### PubSubClient
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RTC1 | ClientOptions (RTC1a–RTC1f1) | Yes — `realtime/unit/client/realtime_client_test.dart` |
-| RTC2 | Connection object attribute | Yes — `realtime/unit/client/realtime_client_test.dart` |
-| RTC3 | Channels object attribute | Yes — `realtime/unit/client/realtime_client_test.dart` |
-| RTC4 | Auth object attribute (RTC4a) | Yes — `realtime/unit/client/realtime_client_test.dart` |
+| RTC1 | ClientOptions (RTC1a–RTC1f1) | Yes — `realtime/unit/client/pubsub_client_test.dart` |
+| RTC2 | Connection object attribute | Yes — `realtime/unit/client/pubsub_client_test.dart` |
+| RTC3 | Channels object attribute | Yes — `realtime/unit/client/pubsub_client_test.dart` |
+| RTC4 | Auth object attribute (RTC4a) | Yes — `realtime/unit/client/pubsub_client_test.dart` |
 | RTC5 | Stats function (RTC5a–RTC5b) | |
 | RTC6 | Time function (RTC6a) | |
 | RTC7 | Uses configured timeouts | Yes — `realtime/unit/client/realtime_timeouts_test.dart` |
@@ -152,11 +152,11 @@ Spec items that only exist on a REST client (`RestClient`, `RestChannel`,
 | RTC9 | Request function | |
 | RTC10–RTC11 | Deleted | N/A |
 | RTC12 | Same constructors as RestClient | N/A — no REST client |
-| RTC13 | Push object attribute | Yes — `realtime/unit/client/realtime_client_test.dart` |
+| RTC13 | Push object attribute | Yes — `realtime/unit/client/pubsub_client_test.dart` |
 | RTC14 | CreateWrapperSDKProxy (RTC14a–RTC14c) | |
-| RTC15 | Connect function (RTC15a) | Yes — `realtime/unit/client/realtime_client_test.dart` |
-| RTC16 | Close function (RTC16a) | Yes — `realtime/unit/client/realtime_client_test.dart` |
-| RTC17 | ClientId attribute (RTC17a) | Yes — `realtime/unit/client/realtime_client_test.dart` |
+| RTC15 | Connect function (RTC15a) | Yes — `realtime/unit/client/pubsub_client_test.dart` |
+| RTC16 | Close function (RTC16a) | Yes — `realtime/unit/client/pubsub_client_test.dart` |
+| RTC17 | ClientId attribute (RTC17a) | Yes — `realtime/unit/client/pubsub_client_test.dart` |
 
 ### Connection
 
@@ -192,7 +192,7 @@ Spec items that only exist on a REST client (`RestClient`, `RestChannel`,
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RTS1 | Channels collection accessible via RealtimeClient | Yes — `realtime/unit/channels/channels_collection_test.dart` |
+| RTS1 | Channels collection accessible via PubSubClient | Yes — `realtime/unit/channels/channels_collection_test.dart` |
 | RTS2 | Methods to check existence and iterate | Yes — `realtime/unit/channels/channels_collection_test.dart` |
 | RTS3 | Get function (RTS3a–RTS3c1) | Yes — `realtime/unit/channels/channels_collection_test.dart`, `realtime/unit/channels/channel_options_test.dart` |
 | RTS4 | Release function (RTS4a) | Yes — `realtime/unit/channels/channels_collection_test.dart` |
@@ -348,7 +348,7 @@ Spec items that only exist on a REST client (`RestClient`, `RestChannel`,
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| TO1–TO3 | ClientOptions | Partial — `realtime/unit/client/realtime_client_test.dart` |
+| TO1–TO3 | ClientOptions | Partial — `realtime/unit/client/pubsub_client_test.dart` |
 | TK1–TK6 | TokenParams | |
 | AO1–AO2 | AuthOptions | |
 | TB1–TB4 | ChannelOptions | Yes — `realtime/unit/channels/channel_options_test.dart` |

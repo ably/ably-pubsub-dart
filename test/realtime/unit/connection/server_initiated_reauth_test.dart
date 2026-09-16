@@ -52,7 +52,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -141,7 +141,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -206,7 +206,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -293,7 +293,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;

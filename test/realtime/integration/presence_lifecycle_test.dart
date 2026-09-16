@@ -25,8 +25,8 @@ void main() {
   groupEachProtocol('Realtime Presence Lifecycle Integration Tests',
       (protocol) {
     /// Helper to create a Realtime client with optional clientId.
-    RealtimeClient buildClient({String? clientId, bool autoConnect = false}) =>
-        RealtimeClient(
+    PubSubClient buildClient({String? clientId, bool autoConnect = false}) =>
+        PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',

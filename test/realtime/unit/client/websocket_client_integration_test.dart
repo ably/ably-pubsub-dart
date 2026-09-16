@@ -10,7 +10,7 @@ import '../../../helpers/protocol_message_helpers.dart';
 void main() {
   group('WebSocket Mock Injection', () {
     // UTS: realtime/unit/RTC17/client-id-attribute-0.5
-    test('can inject MockWebSocketClient into Realtime client', () async {
+    test('can inject MockWebSocketClient into PubSubClient', () async {
       // Create mock
       final mockWs = MockWebSocketClient(
         onConnectionAttempt: (conn) {
@@ -26,7 +26,7 @@ void main() {
       );
 
       // Inject directly into client (same as HTTP pattern!)
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(key: 'test.key:secret'),
         webSocketClient: mockWs,
       );
@@ -57,7 +57,7 @@ void main() {
       final connFuture = mockWs.awaitConnectionAttempt();
 
       // Create client
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(key: 'test.key:secret'),
         webSocketClient: mockWs,
       );
@@ -98,7 +98,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'test.key:secret',
           autoConnect: false,
@@ -138,7 +138,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'invalid.key:secret',
           autoConnect: false,

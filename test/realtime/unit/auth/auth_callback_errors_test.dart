@@ -44,7 +44,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -127,7 +127,7 @@ void main() {
       );
 
       await withClock(testClock, () async {
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             authCallback: (params) async {
               // Never returns -- simulates a timeout
@@ -191,7 +191,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -270,7 +270,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             throw const AblyException(
@@ -355,7 +355,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -428,7 +428,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             throw const AblyException(
@@ -495,7 +495,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             // Return an invalid type -- an integer is not a valid token format
@@ -545,7 +545,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             return oversizedToken;

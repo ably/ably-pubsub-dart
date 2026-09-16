@@ -39,7 +39,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             callbackInvoked = true;
@@ -85,7 +85,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             return TokenDetails(
@@ -132,7 +132,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             throw const AblyException(
@@ -184,7 +184,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             receivedParams = params;
@@ -229,7 +229,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             callbackCount++;
@@ -279,7 +279,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             callbackCount++;
@@ -333,7 +333,7 @@ void main() {
       );
 
       // Both key and authCallback provided - authCallback should take precedence
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           authCallback: (params) async {
@@ -381,7 +381,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,

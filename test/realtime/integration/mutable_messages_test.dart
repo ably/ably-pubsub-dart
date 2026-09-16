@@ -24,7 +24,7 @@ void main() {
 
   groupEachProtocol('Realtime Mutable Messages Integration Tests', (protocol) {
     /// Helper to create a Realtime client.
-    RealtimeClient buildClient({bool autoConnect = false}) => RealtimeClient(
+    PubSubClient buildClient({bool autoConnect = false}) => PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
@@ -41,7 +41,7 @@ void main() {
     }
 
     /// Connects a client and waits until CONNECTED.
-    Future<void> connectAndWait(RealtimeClient client) async {
+    Future<void> connectAndWait(PubSubClient client) async {
       client.connect();
       await waitForConnectionState(
         client.connection,

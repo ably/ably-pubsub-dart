@@ -3,11 +3,11 @@ import 'package:ably_example/constants.dart';
 import 'package:ably_example/ui/api_key_service.dart';
 
 class AblyService {
-  late final ably.RealtimeClient realtime;
+  late final ably.PubSubClient realtime;
   late final ApiKeyProvision apiKeyProvision;
 
   AblyService({required this.apiKeyProvision}) {
-    realtime = ably.RealtimeClient(
+    realtime = ably.PubSubClient(
       options: ably.ClientOptions(
         key: apiKeyProvision.key,
         clientId: Constants.clientId,

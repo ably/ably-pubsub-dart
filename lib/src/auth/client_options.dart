@@ -282,7 +282,7 @@ class ClientOptions extends AuthOptions {
   /// Spec: RTL6c2
   final bool queueMessages;
 
-  /// Whether to automatically connect when the Realtime client is created.
+  /// Whether to automatically connect when the Pub/Sub client is created.
   ///
   /// Defaults to true. Set to false to delay connection until connect() is called.
   final bool autoConnect;

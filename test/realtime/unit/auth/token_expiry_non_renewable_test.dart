@@ -34,7 +34,7 @@ void main() {
       );
 
       // Client with token only -- no means to renew
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           tokenDetails: TokenDetails(
             token: 'expired-token',
@@ -89,7 +89,7 @@ void main() {
       );
 
       // Client with token string only -- no means to renew
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           token: 'non-renewable-token',
           autoConnect: false,
@@ -145,7 +145,7 @@ void main() {
       );
 
       // Client with token only -- no means to renew
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           token: 'non-renewable-token',
           autoConnect: false,
@@ -191,7 +191,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             token: 'non-renewable-token',
             autoConnect: false,

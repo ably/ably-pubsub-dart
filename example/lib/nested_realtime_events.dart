@@ -7,7 +7,7 @@ import 'package:ably_pubsub_device/ably_pubsub_device.dart' as ably;
 
 /// This method is a demonstration on how to use multiple listeners
 /// with realtime connection state change listeners as an example
-void listenRealtimeConnection(ably.RealtimeClient realtime) {
+void listenRealtimeConnection(ably.PubSubClient realtime) {
   //RETAINING LISTENER - α
   realtime.connection.on().listen((stateChange) {
     print('RETAINING LISTENER α :: Change event arrived!: ${stateChange.event}'

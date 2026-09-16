@@ -7,10 +7,13 @@
 - Removed the REST client. `RestClient`, `RestChannels`, `RestChannel`,
   `RestPresence`, `RestPresenceParams`, `RestChannelOptions`, and the batch
   operation types (`BatchPublishSpec`, `BatchResult`, `BatchPresenceResponse`)
-  are no longer part of the public API. Use `RealtimeClient`, whose channels
+  are no longer part of the public API. Use `PubSubClient`, whose channels
   provide `publish`, `history`, `status`, `getMessage`, message
   update/delete/append and presence history over the same HTTP endpoints, and
   which retains `time()`, `stats()`, `request()` and `push`.
+- Renamed `RealtimeClient` to `PubSubClient`. The channel, presence and
+  annotation types keep their `Realtime*` names, which follow the Ably features
+  specification.
 
 ## [0.2.0](https://github.com/ably/ably-pubsub-dart/tree/v0.2.0)
 

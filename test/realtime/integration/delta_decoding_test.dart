@@ -322,7 +322,7 @@ void main() {
             'delta-dissimilar-${DateTime.now().millisecondsSinceEpoch}';
         final random = Random();
 
-        final client = RealtimeClient(
+        final client = PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
@@ -402,7 +402,7 @@ void main() {
         final channelName =
             'delta-nodelta-${DateTime.now().millisecondsSinceEpoch}';
 
-        final client = RealtimeClient(
+        final client = PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
@@ -471,7 +471,7 @@ void main() {
         final channelName =
             'delta-mismatch-${DateTime.now().millisecondsSinceEpoch}';
 
-        final client = RealtimeClient(
+        final client = PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
@@ -589,7 +589,7 @@ void main() {
         final channelName =
             'delta-decodefail-${DateTime.now().millisecondsSinceEpoch}';
 
-        final client = RealtimeClient(
+        final client = PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
@@ -678,7 +678,7 @@ void main() {
             'delta-noplugin-${DateTime.now().millisecondsSinceEpoch}';
 
         // Subscriber: no vcdiff plugin but requests delta channel mode
-        final subscriber = RealtimeClient(
+        final subscriber = PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
@@ -690,7 +690,7 @@ void main() {
         addTearDown(() async => subscriber.close());
 
         // Publisher: plain channel without delta param
-        final publisher = RealtimeClient(
+        final publisher = PubSubClient(
           options: ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
