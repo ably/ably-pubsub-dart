@@ -141,7 +141,7 @@ Spec items that only exist on a REST client (`RestClient`, `RestChannel`,
 
 | Spec item | Description | Dart test |
 |-----------|-------------|-----------|
-| RTC1 | ClientOptions (RTC1a–RTC1f1) | Yes — `realtime/unit/client/pubsub_client_test.dart` |
+| RTC1 | ClientOptions (RTC1a–RTC1f1) | Yes — `realtime/unit/client/pubsub_client_test.dart`. Clients are created with the top-level `createClient(options)`; the class has no public constructor. |
 | RTC2 | Connection object attribute | Yes — `realtime/unit/client/pubsub_client_test.dart` |
 | RTC3 | Channels object attribute | Yes — `realtime/unit/client/pubsub_client_test.dart` |
 | RTC4 | Auth object attribute (RTC4a) | Yes — `realtime/unit/client/pubsub_client_test.dart` |

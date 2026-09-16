@@ -14,8 +14,8 @@ void main() {
   group('RTL23 - RealtimeChannel name attribute', () {
     // UTS: realtime/unit/RTL23/name-attribute-0
     test('returns the name used when getting the channel', () {
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
         ),

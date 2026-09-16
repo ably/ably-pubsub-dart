@@ -14,37 +14,35 @@ import 'connection.dart';
 import 'realtime_channels.dart';
 import 'websocket_client.dart';
 
+/// Creates a Pub/Sub client with the given [options].
+///
+/// This is the only way to create a [PubSubClient]; the class itself has no
+/// public constructor.
+///
+/// ```dart
+/// final client = createClient(ClientOptions(key: 'app.key:secret'));
+/// ```
+///
+/// To create a client from an API key alone, use [ClientOptions.fromKey]:
+///
+/// ```dart
+/// final client = createClient(ClientOptions.fromKey('app.key:secret'));
+/// ```
+///
+/// Spec: RTC1, RTC1a, RTC1b
+PubSubClient createClient(ClientOptions options) =>
+    PubSubClientImpl(options: options);
+
 /// The Ably Pub/Sub client.
 ///
 /// Provides access to realtime messaging, presence, and connection management.
 ///
+/// Instances are created with [createClient], not by construction.
+///
 /// Spec: RTC1
 abstract class PubSubClient {
-  /// Creates a Pub/Sub client with the given options.
-  ///
-  /// If [key] is provided, it will be used instead of options.key.
-  ///
-  /// Spec: RTC1a
-  factory PubSubClient({
-    ClientOptions? options,
-    String? key,
-  }) {
-    if (options == null && key == null) {
-      throw ArgumentError('Must provide either options or key');
-    }
-    var resolvedOptions = options ?? ClientOptions(key: key);
-    if (key != null && options != null) {
-      resolvedOptions = resolvedOptions.copyWith(key: key);
-    }
-    return PubSubClientImpl(options: resolvedOptions);
-  }
-
-  /// Creates a Pub/Sub client from an API key.
-  ///
-  /// Spec: RTC1b
-  factory PubSubClient.fromKey(String key) {
-    return PubSubClientImpl(options: ClientOptions(key: key));
-  }
+  // No generative constructor is declared, so `PubSubClient(...)` does not
+  // compile and the class cannot be extended. Use [createClient].
 
   /// Creates a Pub/Sub client with test configuration.
   ///

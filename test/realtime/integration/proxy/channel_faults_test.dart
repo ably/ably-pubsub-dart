@@ -28,8 +28,8 @@ void main() {
     int? realtimeRequestTimeout,
   }) {
     final apiKey = testApp.keys[0].keyStr;
-    return PubSubClient(
-      options: ClientOptions(
+    return createClient(
+      ClientOptions(
         authCallback: (params) async {
           return JwtHelper.generateToken(apiKey: apiKey);
         },
