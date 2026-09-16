@@ -4,7 +4,6 @@ import 'package:ably_example/ui/api_key_service.dart';
 
 class AblyService {
   late final ably.RealtimeClient realtime;
-  late final ably.RestClient rest;
   late final ApiKeyProvision apiKeyProvision;
 
   AblyService({required this.apiKeyProvision}) {
@@ -17,16 +16,6 @@ class AblyService {
             ? null
             : Constants.sandboxEndpoint,
         autoConnect: false,
-      ),
-    );
-    rest = ably.RestClient(
-      options: ably.ClientOptions(
-        key: apiKeyProvision.key,
-        clientId: Constants.clientId,
-        logLevel: ably.LogLevel.verbose,
-        endpoint: apiKeyProvision.source == ApiKeySource.env
-            ? null
-            : Constants.sandboxEndpoint,
       ),
     );
   }
