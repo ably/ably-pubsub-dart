@@ -24,8 +24,8 @@ void main() {
 
   groupEachProtocol('Realtime Mutable Messages Integration Tests', (protocol) {
     /// Helper to create a Realtime client.
-    PubSubClient buildClient({bool autoConnect = false}) => PubSubClient(
-          options: ClientOptions(
+    PubSubClient buildClient({bool autoConnect = false}) => createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',

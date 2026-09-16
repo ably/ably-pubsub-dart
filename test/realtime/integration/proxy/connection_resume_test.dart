@@ -50,8 +50,8 @@ void main() {
       final apiKey = testApp.keys[0].keyStr;
       final stateChanges = <ConnectionStateChange>[];
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -127,8 +127,8 @@ void main() {
 
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -232,8 +232,8 @@ void main() {
 
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -309,8 +309,8 @@ void main() {
       // Get a real token (no key/callback on the client under test, so the
       // token is non-renewable)
       final apiKey = testApp.keys[0].keyStr;
-      final tokenClient = PubSubClient(
-        options: ClientOptions(
+      final tokenClient = createClient(
+        ClientOptions(
           key: apiKey,
           endpoint: 'nonprod:sandbox',
           useBinaryProtocol: false,
@@ -321,8 +321,8 @@ void main() {
       await tokenClient.close();
       final tokenString = tokenDetails.token!;
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           token: tokenString,
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -384,8 +384,8 @@ void main() {
       final apiKey = testApp.keys[0].keyStr;
       final stateChanges = <ConnectionStateChange>[];
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -434,8 +434,8 @@ void main() {
 
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -546,8 +546,8 @@ void main() {
       final apiKey = testApp.keys[0].keyStr;
       final stateChanges = <ConnectionStateChange>[];
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -626,8 +626,8 @@ void main() {
       final apiKey = testApp.keys[0].keyStr;
       final channelName = 'rtn19a-${DateTime.now().millisecondsSinceEpoch}';
 
-      final client = PubSubClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,

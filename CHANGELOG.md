@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-**Breaking changes**
+**Breaking changes** — see [UPGRADING.md](./UPGRADING.md) for a migration guide.
 
 - Removed the REST client. `RestClient`, `RestChannels`, `RestChannel`,
   `RestPresence`, `RestPresenceParams`, `RestChannelOptions`, and the batch
@@ -14,6 +14,10 @@
 - Renamed `RealtimeClient` to `PubSubClient`. The channel, presence and
   annotation types keep their `Realtime*` names, which follow the Ably features
   specification.
+- Clients are now created with the top-level `createClient(options)` function.
+  `PubSubClient` has no public constructor, so `PubSubClient(options: ...)` and
+  `PubSubClient.fromKey(key)` are gone; pass `ClientOptions.fromKey('key')` to
+  `createClient` for the key shorthand.
 
 ## [0.2.0](https://github.com/ably/ably-pubsub-dart/tree/v0.2.0)
 
