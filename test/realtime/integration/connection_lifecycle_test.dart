@@ -24,7 +24,7 @@ void main() {
     // -------------------------------------------------------------------------
     // UTS: realtime/integration/RTN4b/successful-connection-0
     test('RTN4b, RTN21 - Successful connection establishment', () async {
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           key: testApp.keys[0].keyStr,
           endpoint: 'nonprod:sandbox',
@@ -61,7 +61,7 @@ void main() {
     // -------------------------------------------------------------------------
     // UTS: realtime/integration/RTN4c/graceful-close-0
     test('RTN4c, RTN12, RTN12a - Graceful connection close', () async {
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           key: testApp.keys[0].keyStr,
           endpoint: 'nonprod:sandbox',
@@ -91,7 +91,7 @@ void main() {
     // -------------------------------------------------------------------------
     // UTS: realtime/integration/RTN11/connect-reconnect-cycle-0
     test('RTN11, RTN4b - Connect and reconnect cycle', () async {
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           key: testApp.keys[0].keyStr,
           endpoint: 'nonprod:sandbox',

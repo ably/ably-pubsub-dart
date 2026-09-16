@@ -37,7 +37,7 @@ void main() {
       addTearDown(() async => await session.close());
 
       // Create Realtime client
-      final realtimeClient = RealtimeClient(
+      final pubSubClient = PubSubClient(
         options: ClientOptions(
           authCallback: (params) async {
             return JwtHelper.generateToken(apiKey: apiKey);
@@ -49,11 +49,11 @@ void main() {
           autoConnect: false,
         ),
       );
-      addTearDown(() async => await realtimeClient.close());
+      addTearDown(() async => await pubSubClient.close());
 
-      await realtimeClient.connect();
+      await pubSubClient.connect();
 
-      final channel = realtimeClient.channels.get(channelName);
+      final channel = pubSubClient.channels.get(channelName);
 
       // Attach and publish
       await channel.attach();

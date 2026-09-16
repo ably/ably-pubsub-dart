@@ -27,7 +27,7 @@ void main() {
     test('RTC8a - In-band reauthorization on CONNECTED client', () async {
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           authCallback: (params) async {
             return JwtHelper.generateToken(apiKey: apiKey);
@@ -86,7 +86,7 @@ void main() {
     test('RTC8c - authorize() from INITIALIZED initiates connection', () async {
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           authCallback: (params) async {
             return JwtHelper.generateToken(apiKey: apiKey);
@@ -127,7 +127,7 @@ void main() {
     test('RSA8 - Token auth via authCallback on realtime', () async {
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           authCallback: (params) async {
             return JwtHelper.generateToken(apiKey: apiKey);
@@ -159,7 +159,7 @@ void main() {
       final testClientId =
           'test-client-${DateTime.now().millisecondsSinceEpoch}';
 
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           authCallback: (params) async {
             return JwtHelper.generateToken(

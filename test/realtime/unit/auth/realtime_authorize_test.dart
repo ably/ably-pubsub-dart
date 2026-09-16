@@ -43,7 +43,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -121,7 +121,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -220,7 +220,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -298,7 +298,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -357,7 +357,7 @@ void main() {
         // No onMessageFromClient — we'll respond manually via await pattern
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -435,7 +435,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -505,7 +505,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -557,7 +557,7 @@ void main() {
       );
 
       // Client starts in INITIALIZED (autoConnect: false, connect() not called)
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -634,7 +634,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;
@@ -697,7 +697,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             authCallbackCount++;

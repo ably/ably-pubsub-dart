@@ -29,7 +29,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'invalid.key:secret',
           autoConnect: false,
@@ -89,7 +89,7 @@ void main() {
       );
 
       // Use authCallback for token renewal
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           authCallback: (params) async {
             tokenRenewalCount++;
@@ -133,7 +133,7 @@ void main() {
       );
 
       // Use token directly (no way to renew - no key, authUrl, or authCallback)
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           token: 'expired_token_string',
           autoConnect: false,
@@ -178,7 +178,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             realtimeRequestTimeout: 1000, // 1 second timeout
@@ -245,7 +245,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             disconnectedRetryTimeout: 1000, // Use fake timer value
@@ -288,7 +288,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             disconnectedRetryTimeout: 1000, // 1 second retry
@@ -355,7 +355,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             disconnectedRetryTimeout: 1000,
@@ -415,7 +415,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -461,7 +461,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'invalid.key:secret',
           autoConnect: false,
@@ -501,7 +501,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           autoConnect: false,
           authCallback: (params) async {

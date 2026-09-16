@@ -13,7 +13,7 @@ export 'src/auth/token_request.dart';
 export 'src/auth/token_revocation.dart';
 
 // Realtime
-export 'src/realtime/realtime_client.dart';
+export 'src/realtime/pubsub_client.dart';
 export 'src/realtime/connection.dart';
 export 'src/realtime/connection_state.dart';
 export 'src/realtime/connection_event.dart';

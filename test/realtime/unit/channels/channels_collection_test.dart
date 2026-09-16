@@ -10,7 +10,7 @@ import '../../../helpers/test_channel_name.dart';
 /// Spec: RTS1, RTS2, RTS3a, RTS4a
 void main() {
   group('RealtimeChannels Collection - UTS Tests', () {
-    late RealtimeClient client;
+    late PubSubClient client;
     late MockWebSocketClient mockWs;
 
     setUp(() {
@@ -33,7 +33,7 @@ void main() {
         },
       );
 
-      client = RealtimeClient.forTesting(
+      client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
@@ -42,7 +42,7 @@ void main() {
       );
     });
 
-    group('RTS1 - Channels collection accessible via RealtimeClient', () {
+    group('RTS1 - Channels collection accessible via PubSubClient', () {
       // UTS: realtime/unit/RTS1/channels-collection-accessible-0
       test('channels attribute exists and is RealtimeChannels', () {
         expect(client.channels, isNotNull);

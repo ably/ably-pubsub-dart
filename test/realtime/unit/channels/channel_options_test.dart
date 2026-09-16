@@ -112,7 +112,7 @@ void main() {
   });
 
   group('RealtimeChannels with options - UTS Tests', () {
-    late RealtimeClient client;
+    late PubSubClient client;
     late MockWebSocketClient mockWs;
 
     setUp(() {
@@ -133,7 +133,7 @@ void main() {
         },
       );
 
-      client = RealtimeClient.forTesting(
+      client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,
@@ -227,7 +227,7 @@ void main() {
           },
         );
 
-        final localClient = RealtimeClient.forTesting(
+        final localClient = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'fake.key:secret',
             autoConnect: false,

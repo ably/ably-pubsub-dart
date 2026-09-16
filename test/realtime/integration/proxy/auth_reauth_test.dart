@@ -36,7 +36,7 @@ void main() {
         final session = await ProxySession.create();
         addTearDown(() async => await session.close());
 
-        final client = RealtimeClient(
+        final client = PubSubClient(
           options: ClientOptions(
             authCallback: (params) async {
               authCallbackCount++;

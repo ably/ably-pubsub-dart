@@ -38,7 +38,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -97,7 +97,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -147,7 +147,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -196,7 +196,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -247,7 +247,7 @@ void main() {
       );
 
       // No clientId — anonymous client (basic auth, no HTTP needed)
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -293,7 +293,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWs,
       );
@@ -350,7 +350,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -402,7 +402,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -455,7 +455,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -505,7 +505,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -556,7 +556,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWs,
       );
@@ -616,7 +616,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWs,
       );
@@ -680,7 +680,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWs,
       );
@@ -724,7 +724,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -779,7 +779,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -827,7 +827,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -890,7 +890,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -953,7 +953,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWs,
       );
@@ -1052,7 +1052,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWs,
       );
@@ -1182,11 +1182,11 @@ void main() {
         },
       );
 
-      final clientA = RealtimeClient.forTesting(
+      final clientA = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWsA,
       );
-      final clientB = RealtimeClient.forTesting(
+      final clientB = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'fake.key:secret',
           autoConnect: false,

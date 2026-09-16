@@ -51,7 +51,7 @@ class TestClock extends Clock {
 /// final fakeTimers = FakeTimerManager(testClock);
 ///
 /// withClock(testClock, () async {
-///   final client = RealtimeClient.forTesting(
+///   final client = PubSubClient.forTesting(
 ///     timerManager: fakeTimers,
 ///     ...
 ///   );

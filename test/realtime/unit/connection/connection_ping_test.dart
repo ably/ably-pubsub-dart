@@ -45,7 +45,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -100,7 +100,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -146,7 +146,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -177,7 +177,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -230,7 +230,7 @@ void main() {
           // No onMessageFromClient — server never responds to HEARTBEAT
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             realtimeRequestTimeout: 2000,
@@ -271,7 +271,7 @@ void main() {
   group('RTN13b - Ping errors in invalid states', () {
     // UTS: realtime/unit/RTN13b/ping-error-initialized-0
     test('errors in INITIALIZED state', () async {
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -294,7 +294,7 @@ void main() {
           onConnectionAttempt: (conn) => conn.respondWithRefused(),
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             autoConnect: false,
@@ -334,7 +334,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -368,7 +368,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -403,7 +403,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -472,7 +472,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             disconnectedRetryTimeout: 500,
@@ -528,7 +528,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -570,7 +570,7 @@ void main() {
           onConnectionAttempt: (conn) => conn.respondWithRefused(),
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             autoConnect: false,
@@ -616,7 +616,7 @@ void main() {
           // No onMessageFromClient — server never responds to HEARTBEAT
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             realtimeRequestTimeout: 2000,

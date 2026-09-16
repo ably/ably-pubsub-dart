@@ -32,7 +32,7 @@ void main() {
           // Don't respond to ATTACH — simulate timeout
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             autoConnect: false,
@@ -96,7 +96,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             autoConnect: false,
@@ -171,7 +171,7 @@ void main() {
           onRequest: (req) => req.respondWith(200, 'yes'),
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             autoConnect: false,

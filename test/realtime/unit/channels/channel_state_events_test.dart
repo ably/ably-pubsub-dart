@@ -16,7 +16,7 @@ void main() {
   group('RTL2b - Channel state attribute', () {
     // UTS: realtime/unit/RTL2b/channel-state-attribute-0
     test('channel has state of type ChannelState', () {
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -30,7 +30,7 @@ void main() {
 
     // UTS: realtime/unit/RTL2b/initial-state-initialized-1
     test('initial state is initialized', () {
-      final client = RealtimeClient(
+      final client = PubSubClient(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -68,7 +68,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -117,7 +117,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -178,7 +178,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -236,7 +236,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -288,7 +288,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -346,7 +346,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -415,7 +415,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -462,7 +462,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -516,7 +516,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -573,7 +573,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -637,7 +637,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,

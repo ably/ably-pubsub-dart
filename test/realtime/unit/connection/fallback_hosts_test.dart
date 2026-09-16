@@ -50,7 +50,7 @@ void main() {
           },
         );
 
-        final client = RealtimeClient.forTesting(
+        final client = PubSubClient.forTesting(
           options: ClientOptions(
             key: 'appId.keyId:keySecret',
             autoConnect: false,
@@ -131,7 +131,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -186,7 +186,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           realtimeRequestTimeout: 1000, // 1 second timeout
@@ -245,7 +245,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -312,7 +312,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -357,7 +357,7 @@ void main() {
       );
 
       // Use custom endpoint which results in empty fallback set (REC2c2)
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           endpoint: 'custom.example.com', // Explicit hostname = no fallbacks
@@ -413,7 +413,7 @@ void main() {
       );
 
       // Use default configuration (should use default fallback hosts)
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -477,7 +477,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
@@ -535,7 +535,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: ClientOptions(
           key: 'appId.keyId:keySecret',
           autoConnect: false,
