@@ -1,4 +1,4 @@
-import 'package:ably/ably.dart' as ably;
+import 'package:ably_pubsub_device/ably_pubsub_device.dart' as ably;
 import 'package:ably_example/constants.dart';
 import 'package:ably_example/ui/paginated_result_viewer.dart';
 import 'package:ably_example/ui/text_row.dart';

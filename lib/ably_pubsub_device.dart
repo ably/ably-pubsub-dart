@@ -1,7 +1,7 @@
 /// Ably SDK for Dart.
 ///
 /// This library provides a pure Dart implementation of the Ably REST and Realtime APIs.
-library ably;
+library ably_pubsub_device;
 
 // Authentication
 export 'src/auth/auth.dart';

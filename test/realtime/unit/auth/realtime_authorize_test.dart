@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 import 'package:test/test.dart';
 
 import '../../../helpers/mock_websocket_client.dart';

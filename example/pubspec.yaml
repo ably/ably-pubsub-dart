@@ -1,5 +1,5 @@
 name: ably_example
-description: Example Flutter app for the ably Dart SDK.
+description: Example Flutter app for the ably_pubsub_device Dart SDK.
 publish_to: none
 
 environment:
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ably:
+  ably_pubsub_device:
     path: ../
   http: ^1.2.0
   retry: ^3.1.2
