@@ -1,4 +1,4 @@
-paths: ["test/rest/unit", "test/realtime/unit"]
+paths: ["test/realtime/unit"]
 
 tags:
   integration:
@@ -6,8 +6,8 @@ tags:
 
 presets:
   proxy:
-    paths: ["test/rest/integration/proxy", "test/realtime/integration/proxy"]
+    paths: ["test/realtime/integration/proxy"]
   integration:
-    paths: ["test/rest/integration", "test/realtime/integration"]
+    paths: ["test/realtime/integration"]
   all:
     paths: ["test"]

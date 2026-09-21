@@ -1,12 +1,31 @@
 # Changelog
 
-## [0.2.0](https://github.com/ably/ably-flutter/tree/v0.2.0)
+## Unreleased
 
-[Full Changelog](https://github.com/ably/ably-flutter/compare/v0.1.0...v0.2.0)
+**Breaking changes** — see [UPGRADING.md](./UPGRADING.md) for a migration guide.
 
-- Refine heartbeat handling logic and improve logging for protocol message sending [#10](https://github.com/ably/ably-flutter/pull/10)
+- Removed the REST client. `RestClient`, `RestChannels`, `RestChannel`,
+  `RestPresence`, `RestPresenceParams`, `RestChannelOptions`, and the batch
+  operation types (`BatchPublishSpec`, `BatchResult`, `BatchPresenceResponse`)
+  are no longer part of the public API. Use `PubSubClient`, whose channels
+  provide `publish`, `history`, `status`, `getMessage`, message
+  update/delete/append and presence history over the same HTTP endpoints, and
+  which retains `time()`, `stats()`, `request()` and `push`.
+- Renamed `RealtimeClient` to `PubSubClient`. The channel, presence and
+  annotation types keep their `Realtime*` names, which follow the Ably features
+  specification.
+- Clients are now created with the top-level `createClient(options)` function.
+  `PubSubClient` has no public constructor, so `PubSubClient(options: ...)` and
+  `PubSubClient.fromKey(key)` are gone; pass `ClientOptions.fromKey('key')` to
+  `createClient` for the key shorthand.
 
-## [0.1.0](https://github.com/ably/ably-dart/tree/v0.1.0)
+## [0.2.0](https://github.com/ably/ably-pubsub-dart/tree/v0.2.0)
+
+[Full Changelog](https://github.com/ably/ably-pubsub-dart/compare/v0.1.0...v0.2.0)
+
+- Refine heartbeat handling logic and improve logging for protocol message sending [#10](https://github.com/ably/ably-pubsub-dart/pull/10)
+
+## [0.1.0](https://github.com/ably/ably-pubsub-dart/tree/v0.1.0)
 
 Initial release of the Ably Pub/Sub Dart SDK.
 

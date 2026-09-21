@@ -3,7 +3,7 @@ library;
 
 import 'dart:async';
 
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 import 'package:test/test.dart';
 
 import '../../../helpers/jwt_helper.dart';
@@ -66,8 +66,8 @@ void main() {
 
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = RealtimeClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -127,8 +127,8 @@ void main() {
       final apiKey = testApp.keys[0].keyStr;
       var authCallbackCount = 0;
 
-      final client = RealtimeClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(
             apiKey,
             onCalled: () => authCallbackCount++,
@@ -180,8 +180,8 @@ void main() {
       final apiKey = testApp.keys[0].keyStr;
       final stateChanges = <ConnectionStateChange>[];
 
-      final client = RealtimeClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -251,8 +251,8 @@ void main() {
 
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = RealtimeClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,
@@ -298,8 +298,8 @@ void main() {
 
       final apiKey = testApp.keys[0].keyStr;
 
-      final client = RealtimeClient(
-        options: ClientOptions(
+      final client = createClient(
+        ClientOptions(
           authCallback: makeAuthCallback(apiKey),
           endpoint: 'localhost',
           port: session.proxyPort,

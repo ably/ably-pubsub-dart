@@ -3,7 +3,7 @@ import 'push_channel_subscription.dart';
 
 /// Per-channel push notification operations.
 ///
-/// Available on [RestChannel.push] and [RealtimeChannel.push].
+/// Available on [RealtimeChannel.push].
 /// Operates from the perspective of the local device (the push target).
 ///
 /// Spec: RSH7

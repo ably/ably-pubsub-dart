@@ -11,7 +11,7 @@ jobs:
   publish:
     environment:
       name: 'pub.dev'
-      url: 'https://pub.dev/packages/ably'
+      url: 'https://pub.dev/packages/ably_pubsub_device'
     permissions:
       contents: read
       id-token: write # This is required for requesting the JWT

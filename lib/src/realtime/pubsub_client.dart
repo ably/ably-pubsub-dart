@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 import '../auth/auth.dart';
 import '../auth/client_options.dart';
-import '../impl/realtime_client_impl.dart';
+import '../impl/pubsub_client_impl.dart';
 import '../pagination/http_paginated_response.dart';
 import 'timer_manager.dart';
 import '../pagination/paginated_result.dart';
@@ -14,50 +14,48 @@ import 'connection.dart';
 import 'realtime_channels.dart';
 import 'websocket_client.dart';
 
-/// The Ably Realtime client.
+/// Creates a Pub/Sub client with the given [options].
+///
+/// This is the only way to create a [PubSubClient]; the class itself has no
+/// public constructor.
+///
+/// ```dart
+/// final client = createClient(ClientOptions(key: 'app.key:secret'));
+/// ```
+///
+/// To create a client from an API key alone, use [ClientOptions.fromKey]:
+///
+/// ```dart
+/// final client = createClient(ClientOptions.fromKey('app.key:secret'));
+/// ```
+///
+/// Spec: RTC1, RTC1a, RTC1b
+PubSubClient createClient(ClientOptions options) =>
+    PubSubClientImpl(options: options);
+
+/// The Ably Pub/Sub client.
 ///
 /// Provides access to realtime messaging, presence, and connection management.
 ///
+/// Instances are created with [createClient], not by construction.
+///
 /// Spec: RTC1
-abstract class RealtimeClient {
-  /// Creates a Realtime client with the given options.
-  ///
-  /// If [key] is provided, it will be used instead of options.key.
-  ///
-  /// Spec: RTC1a
-  factory RealtimeClient({
-    ClientOptions? options,
-    String? key,
-  }) {
-    if (options == null && key == null) {
-      throw ArgumentError('Must provide either options or key');
-    }
-    var resolvedOptions = options ?? ClientOptions(key: key);
-    if (key != null && options != null) {
-      resolvedOptions = resolvedOptions.copyWith(key: key);
-    }
-    return RealtimeClientImpl(options: resolvedOptions);
-  }
+abstract class PubSubClient {
+  // No generative constructor is declared, so `PubSubClient(...)` does not
+  // compile and the class cannot be extended. Use [createClient].
 
-  /// Creates a Realtime client from an API key.
-  ///
-  /// Spec: RTC1b
-  factory RealtimeClient.fromKey(String key) {
-    return RealtimeClientImpl(options: ClientOptions(key: key));
-  }
-
-  /// Creates a Realtime client with test configuration.
+  /// Creates a Pub/Sub client with test configuration.
   ///
   /// This factory is only for testing purposes and allows injection of
   /// mock dependencies.
   @visibleForTesting
-  factory RealtimeClient.forTesting({
+  factory PubSubClient.forTesting({
     required ClientOptions options,
     WebSocketClient? webSocketClient,
     http.Client? httpClient,
     TimerManager? timerManager,
   }) {
-    return RealtimeClientImpl(
+    return PubSubClientImpl(
       options: options,
       webSocketClient: webSocketClient,
       httpClient: httpClient,
