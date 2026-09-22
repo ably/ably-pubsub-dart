@@ -24,14 +24,18 @@ extension AnnotationActionExtension on AnnotationAction {
   }
 
   /// Creates an AnnotationAction from the numeric wire protocol value.
-  static AnnotationAction fromInt(int value) {
+  ///
+  /// Returns `null` for a value this SDK does not recognise, so a future
+  /// server-side action degrades instead of throwing from inside the
+  /// transport handler. Callers must ignore-with-log.
+  static AnnotationAction? fromInt(int value) {
     switch (value) {
       case 0:
         return AnnotationAction.annotationCreate;
       case 1:
         return AnnotationAction.annotationDelete;
       default:
-        throw ArgumentError('Unknown annotation action value: $value');
+        return null;
     }
   }
 }

@@ -37,7 +37,11 @@ extension PresenceActionExtension on PresenceAction {
   }
 
   /// Creates a PresenceAction from the numeric wire protocol value.
-  static PresenceAction fromInt(int value) {
+  ///
+  /// Returns `null` for a value this SDK does not recognise, so a future
+  /// server-side action degrades instead of throwing from inside the
+  /// transport handler. Callers must ignore-with-log.
+  static PresenceAction? fromInt(int value) {
     switch (value) {
       case 0:
         return PresenceAction.absent;
@@ -50,7 +54,7 @@ extension PresenceActionExtension on PresenceAction {
       case 4:
         return PresenceAction.update;
       default:
-        throw ArgumentError('Unknown presence action value: $value');
+        return null;
     }
   }
 
@@ -71,7 +75,9 @@ extension PresenceActionExtension on PresenceAction {
   }
 
   /// Creates a PresenceAction from an Ably string.
-  static PresenceAction fromAblyString(String value) {
+  ///
+  /// Returns `null` for a value this SDK does not recognise.
+  static PresenceAction? fromAblyString(String value) {
     switch (value.toLowerCase()) {
       case 'absent':
         return PresenceAction.absent;
@@ -84,7 +90,7 @@ extension PresenceActionExtension on PresenceAction {
       case 'update':
         return PresenceAction.update;
       default:
-        throw ArgumentError('Unknown presence action: $value');
+        return null;
     }
   }
 }

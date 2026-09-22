@@ -1095,6 +1095,17 @@ class RealtimeChannelImpl implements RealtimeChannel {
         final rawAction = map['action'];
         if (rawAction is int) {
           messageAction = MessageActionExtension.fromInt(rawAction);
+          if (messageAction == null) {
+            // RTF1: an unrecognised action is ignored with a log rather
+            // than thrown, so a future server-side action cannot break
+            // delivery of the rest of the batch. CHA-M4m5 fixes the level
+            // at INFO.
+            _logger.info('Ignoring message with unrecognised action', {
+              'channel': _name,
+              'action': rawAction,
+            });
+            continue;
+          }
         }
 
         messages.add(

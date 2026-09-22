@@ -135,21 +135,32 @@ void main() {
       client.connect();
       await _awaitState(client.connection, ConnectionState.connected);
 
-      // Verify that unknown action value (254) is handled gracefully.
-      //
-      // NOTE: Currently ProtocolAction.fromInt(254) throws ArgumentError.
-      // The implementation needs to be updated to return null or a sentinel
-      // value for unknown actions (RTF1 compliance). This test documents
-      // the expected behavior.
-      //
-      // When the implementation is fixed, the client should receive the
-      // raw JSON with action=254 and silently ignore it.
+      // RTF1: an unknown action value (254) decodes to null (with
+      // unrecognisedAction capturing the raw wire value for the ignore
+      // log) rather than throwing from inside the transport handler.
+      // Built via fromJson, not the constructor, so this exercises the
+      // actual decode path the patch changed.
       expect(
-        () => ProtocolActionExtension.fromInt(254),
-        throwsArgumentError,
-        reason: 'Currently throws - implementation needs RTF1 fix to '
-            'handle unknown action values gracefully',
+        ProtocolActionExtension.fromInt(254),
+        isNull,
+        reason: 'RTF1 - unknown protocol actions degrade to null',
       );
+      final unrecognisedMessage = ProtocolMessage.fromJson({
+        'action': 254,
+        'channel': 'ignored-unknown-action',
+      });
+      expect(
+        unrecognisedMessage.action,
+        isNull,
+        reason: 'RTF1 - decoding an unknown action must not throw',
+      );
+      expect(
+        unrecognisedMessage.unrecognisedAction,
+        equals(254),
+        reason: 'RTF1 - the raw wire value is retained for the ignore log',
+      );
+      mockWs.activeConnection!.sendToClient(unrecognisedMessage);
+      await _pumpEventQueue();
 
       // Send a normal HEARTBEAT to verify the connection is still
       // processing messages

@@ -383,6 +383,18 @@ class RealtimePresenceImpl implements RealtimePresence {
           ? raw
           : PresenceMessage.fromMap(raw as Map<String, dynamic>);
 
+      // RTF1: ignore only when the wire carried an action value this SDK
+      // could not decode — a member with no action field at all is
+      // unaffected. CHA-M4m5 fixes the level at INFO.
+      final rawAction = raw is Map<String, dynamic> ? raw['action'] : null;
+      if ((rawAction is int || rawAction is String) && msg.action == null) {
+        _logger.info('Ignoring presence message with unrecognised action', {
+          'channel': _channelName,
+          'action': rawAction,
+        });
+        continue;
+      }
+
       _processPresenceMessage(msg);
     }
   }
@@ -410,6 +422,18 @@ class RealtimePresenceImpl implements RealtimePresence {
         final msg = raw is PresenceMessage
             ? raw
             : PresenceMessage.fromMap(raw as Map<String, dynamic>);
+
+        // RTF1: ignore only when the wire carried an action value this
+        // SDK could not decode — a member with no action field at all is
+        // unaffected. CHA-M4m5 fixes the level at INFO.
+        final rawAction = raw is Map<String, dynamic> ? raw['action'] : null;
+        if ((rawAction is int || rawAction is String) && msg.action == null) {
+          _logger.info('Ignoring SYNC member with unrecognised action', {
+            'channel': _channelName,
+            'action': rawAction,
+          });
+          continue;
+        }
 
         // During sync, process as put (PRESENT/ENTER/UPDATE) or remove (LEAVE)
         if (msg.action == PresenceAction.leave ||

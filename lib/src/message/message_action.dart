@@ -45,7 +45,11 @@ extension MessageActionExtension on MessageAction {
   }
 
   /// Creates a MessageAction from the numeric wire protocol value.
-  static MessageAction fromInt(int value) {
+  ///
+  /// Returns `null` for a value this SDK does not recognise, so a future
+  /// server-side action degrades instead of throwing from inside the
+  /// transport handler. Callers must ignore-with-log.
+  static MessageAction? fromInt(int value) {
     switch (value) {
       case 0:
         return MessageAction.messageCreate;
@@ -60,7 +64,7 @@ extension MessageActionExtension on MessageAction {
       case 5:
         return MessageAction.messageAppend;
       default:
-        throw ArgumentError('Unknown message action value: $value');
+        return null;
     }
   }
 }

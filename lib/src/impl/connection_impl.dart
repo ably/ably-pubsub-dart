@@ -887,6 +887,20 @@ class ConnectionImpl implements Connection, WebSocketListener {
     // RTN23a: Any message from server resets idle timer
     _scheduleIdleTimeout();
 
+    // RTF1: a protocol message whose action this SDK does not recognise
+    // decodes to a null action with unrecognisedAction set. Ignore it
+    // with a log rather than letting the wire decoder throw from inside
+    // the transport handler. A message that never carried an action
+    // (unrecognisedAction null) is unaffected. CHA-M4m5 fixes the level
+    // at INFO.
+    if (message.unrecognisedAction != null) {
+      _logger.info('Ignoring protocol message with unrecognised action', {
+        'action': message.unrecognisedAction,
+        if (message.channel != null) 'channel': message.channel,
+      });
+      return;
+    }
+
     switch (message.action) {
       case ProtocolAction.connected:
         _handleConnected(message);

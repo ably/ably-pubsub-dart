@@ -57,13 +57,11 @@ extension ProtocolActionExtension on ProtocolAction {
   int toInt() => _toWire[this]!;
 
   /// Creates action from integer.
-  static ProtocolAction fromInt(int value) {
-    final action = _fromWire[value];
-    if (action == null) {
-      throw ArgumentError('Invalid protocol action: $value');
-    }
-    return action;
-  }
+  ///
+  /// Returns `null` for a value this SDK does not recognise (RTF1), so a
+  /// future protocol action degrades instead of throwing from inside the
+  /// transport handler. Callers must ignore-with-log.
+  static ProtocolAction? fromInt(int value) => _fromWire[value];
 }
 
 /// Protocol message for WebSocket communication with Ably.
@@ -76,6 +74,7 @@ class ProtocolMessage {
   /// Creates a protocol message.
   ProtocolMessage({
     this.action,
+    this.unrecognisedAction,
     this.channel,
     this.channelSerial,
     this.connectionId,
@@ -97,6 +96,15 @@ class ProtocolMessage {
 
   /// The action this message represents.
   final ProtocolAction? action;
+
+  /// The raw wire action value, when the wire sent an integer this SDK
+  /// does not recognise (RTF1) and [action] therefore decoded to `null`.
+  ///
+  /// `null` whenever [action] decoded successfully, and also `null` when
+  /// the wire omitted the action field altogether — that distinction lets
+  /// callers ignore-with-log only a genuinely unrecognised action, and
+  /// leave a message that never carried one untouched.
+  final int? unrecognisedAction;
 
   /// Channel name (for channel-specific messages).
   final String? channel;
@@ -158,10 +166,17 @@ class ProtocolMessage {
 
   /// Creates a ProtocolMessage from JSON.
   factory ProtocolMessage.fromJson(Map<String, dynamic> json) {
+    // RTF1: distinguish "the wire sent an action value this SDK cannot
+    // decode" from "the wire omitted the action field" — only the former
+    // is unrecognisedAction, so ignore-with-log guards don't drop a
+    // message that never carried an action in the first place.
+    final rawAction = json['action'];
+    final decodedAction =
+        rawAction is int ? ProtocolActionExtension.fromInt(rawAction) : null;
     return ProtocolMessage(
-      action: json['action'] != null
-          ? ProtocolActionExtension.fromInt(json['action'] as int)
-          : null,
+      action: decodedAction,
+      unrecognisedAction:
+          rawAction is int && decodedAction == null ? rawAction : null,
       channel: json['channel'] as String?,
       channelSerial: json['channelSerial'] as String?,
       connectionId: json['connectionId'] as String?,

@@ -192,6 +192,17 @@ class RealtimeAnnotationsImpl implements RealtimeAnnotations {
 
       final annotation = Annotation.fromMap(annotationMap);
 
+      // RTF1: an unrecognised action is ignored with a log rather than
+      // thrown. CHA-M4m5 fixes the level at INFO.
+      final rawAction = annotationMap['action'];
+      if (rawAction is int && annotation.action == null) {
+        _logger.info('Ignoring annotation with unrecognised action', {
+          'channel': _channelName,
+          'action': rawAction,
+        });
+        continue;
+      }
+
       // RTAN4c: Deliver to listeners, filtering by type
       for (final sub in _subscribers) {
         if (sub.type == null || sub.type == annotation.type) {
