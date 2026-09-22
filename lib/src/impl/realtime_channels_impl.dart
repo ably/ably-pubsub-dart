@@ -194,17 +194,34 @@ class RealtimeChannelsImpl implements RealtimeChannels {
 
   /// Releases a channel, removing it from the collection.
   ///
-  /// The channel will be detached if currently attached.
+  /// Removes [name] from the collection immediately, so a second call is a
+  /// no-op. Best-effort detaches the channel if currently attached, but a
+  /// rejected detach (e.g. 90001 from FAILED, per RTL5b) is swallowed rather
+  /// than thrown, since release() must still succeed. The channel is always
+  /// disposed, which closes its state-change stream.
   ///
   /// Spec: RTS4, RTS4a
   @override
   Future<void> release(String name) async {
-    final channel = _channels[name];
-    if (channel != null) {
-      _logger.debug('Channel released', {'channel': name});
-      // Detach the channel if it's attached
+    final channel = _channels.remove(name);
+    if (channel == null) return;
+
+    _logger.debug('Channel released', {'channel': name});
+
+    // RTS4a: best-effort detach. detach() raises 90001 from FAILED
+    // (RTL5b) and can reject for any other reason the transport supplies;
+    // release() is idempotent and must still drop and dispose the channel.
+    // dispose() runs in `finally` so it is reached even if detach() throws
+    // something other than the AblyException we anticipate here.
+    try {
       await channel.detach();
-      _channels.remove(name);
+    } on AblyException catch (e) {
+      _logger.debug('Ignoring detach error while releasing channel', {
+        'channel': name,
+        if (e.errorInfo?.code != null) 'code': e.errorInfo!.code,
+      });
+    } finally {
+      channel.dispose();
     }
   }
 

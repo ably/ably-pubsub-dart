@@ -1643,7 +1643,19 @@ class RealtimeChannelImpl implements RealtimeChannel {
   }
 
   /// Disposes resources used by this channel.
+  ///
+  /// Fails any pending attach()/detach() first (RTS4a): a caller can
+  /// release() this channel while it is still ATTACHING and the connection
+  /// is not yet CONNECTED, in which case detach()'s RTL5l path transitions
+  /// straight to DETACHED without touching the attach completer, leaving a
+  /// concurrent attach() call parked waiting for it. Settling it here,
+  /// before the state-change controller is closed below, means that
+  /// caller's attach() errors instead of hanging, and never falls through
+  /// to _sendAttachMessage() for a channel that is about to be disposed.
   void dispose() {
+    _failPendingOperations(
+      const ErrorInfo(code: 90001, message: 'Channel released'),
+    );
     _timerManager.cancelAll(owner: this);
     _subscribers.clear();
     _stateChangeController.close();
