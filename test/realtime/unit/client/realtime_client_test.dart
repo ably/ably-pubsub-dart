@@ -559,6 +559,38 @@ void main() {
       );
     });
 
+    // RTC1a: the WebSocketClient interface is exported from package:ably,
+    // but the only constructor that accepted one was
+    // RealtimeClient.forTesting, which is @visibleForTesting -- so an
+    // application that has to supply its own transport (a browser, where
+    // dart:io cannot open a socket at all) had no supported way to do it.
+    //
+    // The mock never touches the network: if the argument were ignored and
+    // the real dart:io transport were built instead, the client would be
+    // off trying to reach ably.io and would never reach CONNECTED here.
+    test('RTC1a - a transport passed to the factory is the one used', () async {
+      final mockWs = MockWebSocketClient(
+        onConnectionAttempt: (conn) {
+          conn.respondWithSuccess(ProtocolMessageHelpers.connected());
+        },
+      );
+
+      final realtime = RealtimeClient(
+        options: ClientOptions(key: 'appId.keyId:keySecret'),
+        webSocketClient: mockWs,
+      );
+
+      await _awaitConnectionState(
+        realtime.connection,
+        ConnectionState.connected,
+      );
+
+      expect(realtime.connection.state, equals(ConnectionState.connected));
+
+      await realtime.close();
+      mockWs.dispose();
+    });
+
     // UTS: realtime/unit/RTC13/push-attribute-0
     test('RTC13 - push attribute is accessible', () {
       final realtime = RealtimeClient(
@@ -571,4 +603,18 @@ void main() {
       expect(realtime.push, isNotNull);
     });
   });
+}
+
+Future<void> _awaitConnectionState(
+  Connection connection,
+  ConnectionState targetState, {
+  Duration timeout = const Duration(seconds: 5),
+}) async {
+  if (connection.state == targetState) {
+    return;
+  }
+  await connection
+      .on()
+      .firstWhere((change) => change.current == targetState)
+      .timeout(timeout);
 }

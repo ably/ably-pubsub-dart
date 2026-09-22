@@ -24,10 +24,16 @@ abstract class RealtimeClient {
   ///
   /// If [key] is provided, it will be used instead of options.key.
   ///
+  /// [webSocketClient] replaces the transport the client would otherwise
+  /// build for itself. Leave it null on any platform where `dart:io` can
+  /// open a socket; supply one where it cannot, such as a browser, for
+  /// which `dart:io` compiles to a stub that throws on connect.
+  ///
   /// Spec: RTC1a
   factory RealtimeClient({
     ClientOptions? options,
     String? key,
+    WebSocketClient? webSocketClient,
   }) {
     if (options == null && key == null) {
       throw ArgumentError('Must provide either options or key');
@@ -36,7 +42,10 @@ abstract class RealtimeClient {
     if (key != null && options != null) {
       resolvedOptions = resolvedOptions.copyWith(key: key);
     }
-    return RealtimeClientImpl(options: resolvedOptions);
+    return RealtimeClientImpl(
+      options: resolvedOptions,
+      webSocketClient: webSocketClient,
+    );
   }
 
   /// Creates a Realtime client from an API key.
