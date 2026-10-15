@@ -352,7 +352,7 @@ void main() {
     });
 
     // UTS: realtime/unit/RTC17/client-id-attribute-0.4
-    test('Channel release detaches and removes channel', () async {
+    test('Channel release removes channel once detached', () async {
       final channelName = testChannelName('RTC-release');
 
       late final MockWebSocketClient mockWs;
@@ -398,7 +398,8 @@ void main() {
       expect(channel.state, equals(ChannelState.attached));
       expect(realtime.channels.exists(channelName), isTrue);
 
-      await realtime.channels.release(channelName);
+      await channel.detach();
+      realtime.channels.release(channelName);
 
       expect(realtime.channels.exists(channelName), isFalse);
 

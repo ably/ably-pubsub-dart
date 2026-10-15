@@ -3,7 +3,8 @@
 ## 0.2.x to 0.3.x
 
 This release removes the REST client, renames `RealtimeClient` to `PubSubClient`,
-and replaces the client constructors with a `createClient` function. Every
+replaces the client constructors with a `createClient` function, and makes
+`channels.release()` throw unless the channel is detached. Every
 application needs changes; there are no deprecation shims.
 
 
@@ -58,3 +59,22 @@ createClient(baseOptions.copyWith(key: 'app.key:secret'));
 
 `PubSubClient(...)` and `class MyClient extends PubSubClient` are both compile
 errors in 0.3.x. The type is still yours to reference, mock and `implements`.
+
+### Releasing channels
+
+`channels.release(name)` no longer detaches the channel. It returns `void` and
+throws an `AblyException` with code 90011 if the channel is not `initialized`,
+`detached` or `failed`; the channel then stays in the collection. Detach first:
+
+```dart
+// 0.2.x
+await client.channels.release('my-channel');
+
+// 0.3.x
+await client.channels.get('my-channel').detach();
+client.channels.release('my-channel');
+```
+
+Under the old behaviour the channel stayed in the collection while the detach
+was in flight, so a `get()` for the same name in that window returned a channel
+that was about to be removed and would receive no further messages.
