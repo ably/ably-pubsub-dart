@@ -18,6 +18,11 @@
   `PubSubClient` has no public constructor, so `PubSubClient(options: ...)` and
   `PubSubClient.fromKey(key)` are gone; pass `ClientOptions.fromKey('key')` to
   `createClient` for the key shorthand.
+- `channels.release(name)` is now synchronous and returns `void`. It throws an
+  `AblyException` with code 90011 unless the channel is `initialized`,
+  `detached` or `failed`, and leaves the channel in the collection. Previously
+  it detached the channel first; now `await channel.detach()` before
+  releasing.
 
 ## [0.2.0](https://github.com/ably/ably-pubsub-dart/tree/v0.2.0)
 

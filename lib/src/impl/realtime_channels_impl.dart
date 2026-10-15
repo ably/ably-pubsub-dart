@@ -194,18 +194,37 @@ class RealtimeChannelsImpl implements RealtimeChannels {
 
   /// Releases a channel, removing it from the collection.
   ///
-  /// The channel will be detached if currently attached.
+  /// Throws an [AblyException] with code 90011 if the channel is not in the
+  /// initialized, detached or failed state.
   ///
-  /// Spec: RTS4, RTS4a
+  /// Spec: RTS4, RTS4c, RTS4d, RTS4e
   @override
-  Future<void> release(String name) async {
+  void release(String name) {
     final channel = _channels[name];
-    if (channel != null) {
-      _logger.debug('Channel released', {'channel': name});
-      // Detach the channel if it's attached
-      await channel.detach();
-      _channels.remove(name);
+    // RTS4c
+    if (channel == null) {
+      return;
     }
+    // RTS4e
+    final state = channel.state;
+    if (state != ChannelState.initialized &&
+        state != ChannelState.detached &&
+        state != ChannelState.failed) {
+      throw AblyException(
+        errorInfo: ErrorInfo(
+          code: 90011,
+          statusCode: 400,
+          message: 'Can only release a channel in a state where there is no '
+              'possibility of further updates from the server being received '
+              '(initialized, detached, or failed). The current state is '
+              '${state.name}. Call channel.detach() and wait for it to '
+              'complete before calling channels.release(name).',
+        ),
+      );
+    }
+    // RTS4d
+    _channels.remove(name);
+    _logger.debug('Channel released', {'channel': name});
   }
 
   /// Returns an iterator over all channel names.

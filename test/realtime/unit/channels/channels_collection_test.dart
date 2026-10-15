@@ -7,13 +7,15 @@ import '../../../helpers/test_channel_name.dart';
 
 /// Tests for RealtimeChannels collection management.
 ///
-/// Spec: RTS1, RTS2, RTS3a, RTS4a
+/// Spec: RTS1, RTS2, RTS3a, RTS4c, RTS4d, RTS4e
 void main() {
   group('RealtimeChannels Collection - UTS Tests', () {
     late PubSubClient client;
     late MockWebSocketClient mockWs;
+    late List<ProtocolMessage> detachMessages;
 
     setUp(() {
+      detachMessages = [];
       mockWs = MockWebSocketClient(
         onConnectionAttempt: (conn) {
           conn.respondWithSuccess(
@@ -26,6 +28,7 @@ void main() {
               ProtocolMessageHelpers.attached(channel: msg.channel!),
             );
           } else if (msg.action == ProtocolAction.detach) {
+            detachMessages.add(msg);
             mockWs.activeConnection!.sendToClient(
               ProtocolMessageHelpers.detached(channel: msg.channel!),
             );
@@ -157,48 +160,49 @@ void main() {
       });
     });
 
-    group('RTS4a - Release detaches and removes channel', () {
-      // UTS: realtime/unit/RTS4a/release-removes-channel-0
-      test('release() removes channel from collection', () async {
-        final channelName = testChannelName('RTS4a');
-        client.channels.get(channelName);
+    group('RTS4c - Release of a non-existent channel', () {
+      // UTS: realtime/unit/RTS4c/release-nonexistent-noop-0
+      test('release() on non-existent channel is no-op', () {
+        final channelName = testChannelName('RTS4c-nonexistent');
+
+        client.channels.release(channelName);
+
+        expect(client.channels.exists(channelName), isFalse);
+      });
+    });
+
+    group('RTS4d - Release removes the channel', () {
+      // UTS: realtime/unit/RTS4d/release-removes-channel-0
+      test('release() removes initialized channel', () {
+        final channelName = testChannelName('RTS4d');
+        final channel = client.channels.get(channelName);
+        expect(channel.state, equals(ChannelState.initialized));
         expect(client.channels.exists(channelName), isTrue);
 
-        await client.channels.release(channelName);
+        client.channels.release(channelName);
 
         expect(client.channels.exists(channelName), isFalse);
       });
 
-      // UTS: realtime/unit/RTS4a/release-nonexistent-noop-1
-      test('release() on non-existent channel is no-op', () async {
-        final channelName = testChannelName('RTS4a-nonexistent');
-        // Should complete without throwing
-        await client.channels.release(channelName);
-
-        expect(client.channels.exists(channelName), isFalse);
-      });
-
-      // UTS: realtime/unit/RTS4a/release-detaches-attached-2
-      test('release() calls detach on attached channel', () async {
-        final channelName = testChannelName('RTS4a');
+      // UTS: realtime/unit/RTS4d/release-after-detach-1
+      test('release() removes channel once detached', () async {
+        final channelName = testChannelName('RTS4d-detached');
         final channel = client.channels.get(channelName);
-
-        // Attach the channel (in mock environment, this is synchronous)
         await channel.attach();
-        expect(channel.state, equals(ChannelState.attached));
+        await channel.detach();
+        expect(channel.state, equals(ChannelState.detached));
 
-        // Release should detach first
-        await client.channels.release(channelName);
+        client.channels.release(channelName);
 
         expect(client.channels.exists(channelName), isFalse);
       });
 
-      // UTS: realtime/unit/RTS4a/release-removes-channel-0.1
-      test('get() after release() creates new channel instance', () async {
-        final channelName = testChannelName('RTS4a');
+      // UTS: realtime/unit/RTS4d/release-removes-channel-0.1
+      test('get() after release() creates new channel instance', () {
+        final channelName = testChannelName('RTS4d');
         final channel1 = client.channels.get(channelName);
 
-        await client.channels.release(channelName);
+        client.channels.release(channelName);
 
         final channel2 = client.channels.get(channelName);
 
@@ -209,6 +213,31 @@ void main() {
         );
         expect(channel2.name, equals(channelName));
         expect(client.channels.exists(channelName), isTrue);
+      });
+    });
+
+    group('RTS4e - Release of a channel that is not detached', () {
+      // UTS: realtime/unit/RTS4e/release-attached-fails-0
+      test('release() of attached channel throws 90011', () async {
+        final channelName = testChannelName('RTS4e-attached');
+        final channel = client.channels.get(channelName);
+        await channel.attach();
+        expect(channel.state, equals(ChannelState.attached));
+
+        expect(
+          () => client.channels.release(channelName),
+          throwsA(
+            isA<AblyException>()
+                .having((e) => e.errorInfo?.code, 'code', 90011)
+                .having((e) => e.errorInfo?.statusCode, 'statusCode', 400),
+          ),
+        );
+
+        await Future<void>.delayed(Duration.zero);
+        expect(channel.state, equals(ChannelState.attached));
+        expect(client.channels.exists(channelName), isTrue);
+        expect(identical(client.channels.get(channelName), channel), isTrue);
+        expect(detachMessages, isEmpty);
       });
     });
 
