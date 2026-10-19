@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:test/test.dart';
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 import '../../../helpers/mock_websocket_client.dart';
 import '../../../helpers/protocol_message_helpers.dart';
 import '../../../helpers/test_channel_name.dart';
@@ -42,7 +42,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -128,7 +128,7 @@ void main() {
       );
 
       // Wildcard client to test enterClient with multiple members
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('*'),
         webSocketClient: mockWs,
       );
@@ -228,7 +228,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -313,7 +313,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -398,7 +398,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );
@@ -502,7 +502,7 @@ void main() {
         },
       );
 
-      final client = RealtimeClient.forTesting(
+      final client = PubSubClient.forTesting(
         options: _optionsWithClientId('my-client'),
         webSocketClient: mockWs,
       );

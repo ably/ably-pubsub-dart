@@ -4,7 +4,7 @@ library;
 import 'dart:math';
 
 import 'package:test/test.dart';
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 
 import '../../helpers/protocol_variants.dart';
 import '../../helpers/test_app_helper.dart';
@@ -25,9 +25,9 @@ void main() {
   groupEachProtocol('Realtime Presence Lifecycle Integration Tests',
       (protocol) {
     /// Helper to create a Realtime client with optional clientId.
-    RealtimeClient buildClient({String? clientId, bool autoConnect = false}) =>
-        RealtimeClient(
-          options: ClientOptions(
+    PubSubClient buildClient({String? clientId, bool autoConnect = false}) =>
+        createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',

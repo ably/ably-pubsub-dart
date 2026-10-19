@@ -1,4 +1,4 @@
-[![pub package](https://img.shields.io/pub/v/ably.svg)](https://pub.dev/packages/ably)
+[![pub package](https://img.shields.io/pub/v/ably_pubsub_device.svg)](https://pub.dev/packages/ably_pubsub_device)
 [![License](https://img.shields.io/github/license/ably/ably-pubsub-dart)](https://github.com/ably/ably-pubsub-dart/blob/main/LICENSE)
 
 ---
@@ -38,11 +38,11 @@ This is a pure Dart package with no platform-specific dependencies. It runs anyw
 
 ## Installation
 
-The Dart SDK is available as a [pub.dev package](https://pub.dev/packages/ably). Add it to your `pubspec.yaml`:
+The Dart SDK is available as a [pub.dev package](https://pub.dev/packages/ably_pubsub_device). Add it to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  ably: ^0.2.0
+  ably_pubsub_device: ^0.2.0
 ```
 
 Then run:
@@ -53,18 +53,25 @@ dart pub get
 
 ## Usage
 
-### REST
-
-Use the REST client for stateless operations like publishing messages and querying history:
+Use the Pub/Sub client for persistent connections with live message delivery:
 
 ```dart
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 
-// Create a REST client
-final rest = RestClient(options: ClientOptions(key: 'your-ably-api-key'));
+// Create a client
+final client = createClient(
+  ClientOptions(key: 'your-ably-api-key', clientId: 'me'),
+);
 
-// Get a channel
-final channel = rest.channels.get('test-channel');
+// Wait for connection
+await client.connection.on(ConnectionEvent.connected).first;
+print('Connected to Ably');
+
+// Get a channel and subscribe
+final channel = client.channels.get('test-channel');
+channel.subscribe((message) {
+  print('Received: ${message.data}');
+});
 
 // Publish a message
 await channel.publish(name: 'greeting', data: 'hello world');
@@ -74,32 +81,6 @@ final history = await channel.history();
 for (final message in history.items) {
   print('${message.name}: ${message.data}');
 }
-```
-
-### Realtime
-
-Use the Realtime client for persistent connections with live message delivery:
-
-```dart
-import 'package:ably/ably.dart';
-
-// Create a Realtime client
-final realtime = RealtimeClient(
-  options: ClientOptions(key: 'your-ably-api-key', clientId: 'me'),
-);
-
-// Wait for connection
-await realtime.connection.once(ConnectionEvent.connected);
-print('Connected to Ably');
-
-// Get a channel and subscribe
-final channel = realtime.channels.get('test-channel');
-await channel.subscribe(listener: (message) {
-  print('Received: ${message.data}');
-});
-
-// Publish a message
-await channel.publish(name: 'greeting', data: 'hello world');
 ```
 
 ---

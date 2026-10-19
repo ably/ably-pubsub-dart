@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ably/src/error/error_info.dart';
-import 'package:ably/src/realtime/protocol_message.dart';
-import 'package:ably/src/realtime/websocket_client.dart';
+import 'package:ably_pubsub_device/src/error/error_info.dart';
+import 'package:ably_pubsub_device/src/realtime/protocol_message.dart';
+import 'package:ably_pubsub_device/src/realtime/websocket_client.dart';
 
 /// Callback for handling connection attempts in the mock WebSocket client.
 typedef ConnectionAttemptHandler = void Function(

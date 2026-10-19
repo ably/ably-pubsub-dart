@@ -1,7 +1,7 @@
 @Tags(['integration', 'proxy'])
 library;
 
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 import 'package:test/test.dart';
 
 import '../../../helpers/jwt_helper.dart';
@@ -36,8 +36,8 @@ void main() {
         final session = await ProxySession.create();
         addTearDown(() async => await session.close());
 
-        final client = RealtimeClient(
-          options: ClientOptions(
+        final client = createClient(
+          ClientOptions(
             authCallback: (params) async {
               authCallbackCount++;
               return JwtHelper.generateToken(apiKey: apiKey);
