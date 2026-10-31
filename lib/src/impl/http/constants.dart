@@ -5,7 +5,7 @@ library;
 const String ablyProtocolVersion = '5';
 
 /// SDK version.
-const String sdkVersion = '0.2.0';
+const String sdkVersion = '0.3.0';
 
 /// Default Ably agent string.
 const String ablyAgent = 'ably-pubsub-dart/$sdkVersion ably-pubsub-device';
