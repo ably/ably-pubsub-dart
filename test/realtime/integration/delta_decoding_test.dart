@@ -5,8 +5,8 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:ably/ably.dart';
-import 'package:ably/src/impl/realtime_channel_impl.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
+import 'package:ably_pubsub_device/src/impl/realtime_channel_impl.dart';
 import 'package:test/test.dart';
 
 import '../../helpers/poll_until.dart';
@@ -322,8 +322,8 @@ void main() {
             'delta-dissimilar-${DateTime.now().millisecondsSinceEpoch}';
         final random = Random();
 
-        final client = RealtimeClient(
-          options: ClientOptions(
+        final client = createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',
@@ -402,8 +402,8 @@ void main() {
         final channelName =
             'delta-nodelta-${DateTime.now().millisecondsSinceEpoch}';
 
-        final client = RealtimeClient(
-          options: ClientOptions(
+        final client = createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',
@@ -471,8 +471,8 @@ void main() {
         final channelName =
             'delta-mismatch-${DateTime.now().millisecondsSinceEpoch}';
 
-        final client = RealtimeClient(
-          options: ClientOptions(
+        final client = createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',
@@ -589,8 +589,8 @@ void main() {
         final channelName =
             'delta-decodefail-${DateTime.now().millisecondsSinceEpoch}';
 
-        final client = RealtimeClient(
-          options: ClientOptions(
+        final client = createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',
@@ -678,8 +678,8 @@ void main() {
             'delta-noplugin-${DateTime.now().millisecondsSinceEpoch}';
 
         // Subscriber: no vcdiff plugin but requests delta channel mode
-        final subscriber = RealtimeClient(
-          options: ClientOptions(
+        final subscriber = createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',
@@ -690,8 +690,8 @@ void main() {
         addTearDown(() async => subscriber.close());
 
         // Publisher: plain channel without delta param
-        final publisher = RealtimeClient(
-          options: ClientOptions(
+        final publisher = createClient(
+          ClientOptions(
             key: testApp.keys[0].keyStr,
             endpoint: 'nonprod:sandbox',
             useBinaryProtocol: protocol == 'msgpack',

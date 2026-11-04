@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:clock/clock.dart';
 
-import 'package:ably/src/realtime/timer_manager.dart';
+import 'package:ably_pubsub_device/src/realtime/timer_manager.dart';
 
 /// A controllable fake clock for testing.
 ///
@@ -51,7 +51,7 @@ class TestClock extends Clock {
 /// final fakeTimers = FakeTimerManager(testClock);
 ///
 /// withClock(testClock, () async {
-///   final client = RealtimeClient.forTesting(
+///   final client = PubSubClient.forTesting(
 ///     timerManager: fakeTimers,
 ///     ...
 ///   );

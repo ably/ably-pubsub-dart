@@ -1,15 +1,14 @@
-import 'package:ably/ably.dart' as ably;
+import 'package:ably_pubsub_device/ably_pubsub_device.dart' as ably;
 import 'package:ably_example/constants.dart';
 import 'package:ably_example/ui/api_key_service.dart';
 
 class AblyService {
-  late final ably.RealtimeClient realtime;
-  late final ably.RestClient rest;
+  late final ably.PubSubClient realtime;
   late final ApiKeyProvision apiKeyProvision;
 
   AblyService({required this.apiKeyProvision}) {
-    realtime = ably.RealtimeClient(
-      options: ably.ClientOptions(
+    realtime = ably.createClient(
+      ably.ClientOptions(
         key: apiKeyProvision.key,
         clientId: Constants.clientId,
         logLevel: ably.LogLevel.verbose,
@@ -17,16 +16,6 @@ class AblyService {
             ? null
             : Constants.sandboxEndpoint,
         autoConnect: false,
-      ),
-    );
-    rest = ably.RestClient(
-      options: ably.ClientOptions(
-        key: apiKeyProvision.key,
-        clientId: Constants.clientId,
-        logLevel: ably.LogLevel.verbose,
-        endpoint: apiKeyProvision.source == ApiKeySource.env
-            ? null
-            : Constants.sandboxEndpoint,
       ),
     );
   }

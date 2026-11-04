@@ -1,7 +1,7 @@
 @Tags(['integration', 'proxy'])
 library;
 
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 import 'package:test/test.dart';
 
 import '../../../helpers/jwt_helper.dart';
@@ -23,13 +23,13 @@ void main() {
   });
 
   /// Creates a Realtime client configured to go through the proxy session.
-  RealtimeClient createProxyClient(
+  PubSubClient createProxyClient(
     ProxySession session, {
     int? realtimeRequestTimeout,
   }) {
     final apiKey = testApp.keys[0].keyStr;
-    return RealtimeClient(
-      options: ClientOptions(
+    return createClient(
+      ClientOptions(
         authCallback: (params) async {
           return JwtHelper.generateToken(apiKey: apiKey);
         },

@@ -13,11 +13,10 @@ import 'auth_impl.dart';
 import 'http/http_client.dart';
 import 'paginated_result_impl.dart';
 
-/// Shared base class for Rest and Realtime client implementations.
+/// Base class for client implementations.
 ///
-/// Contains the HTTP client, auth setup, options validation, and
-/// methods that are shared between REST and Realtime clients
-/// (time, stats, request, etc.).
+/// Contains the HTTP client, auth setup, options validation, and the
+/// REST-backed client methods (time, stats, request).
 abstract class BaseClientImpl {
   BaseClientImpl({
     required ClientOptions options,
@@ -56,9 +55,9 @@ abstract class BaseClientImpl {
     logger.info('Client created', {'type': clientType});
   }
 
-  /// The client type name for logging. Overridden by subclasses.
+  /// The client type name for logging.
   @protected
-  String get clientType => 'rest';
+  String get clientType;
 
   final ClientOptions _options;
 

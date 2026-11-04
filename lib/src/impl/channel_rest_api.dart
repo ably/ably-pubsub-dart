@@ -3,15 +3,14 @@ import '../channels/rest_history_params.dart';
 import '../message/annotation.dart';
 import '../message/message.dart';
 import '../message/presence_message.dart';
-import '../message/update_delete_result.dart';
 import '../pagination/paginated_result.dart';
 import 'http/http_client.dart';
 import 'paginated_result_impl.dart';
 
 /// Shared REST HTTP operations on a channel (history, status).
 ///
-/// Used by both RestChannelImpl and RealtimeChannel to avoid
-/// duplicating HTTP request/parse/paginate logic.
+/// Used by RealtimeChannel and RealtimePresence to keep the HTTP
+/// request/parse/paginate logic in one place.
 class ChannelRestApi {
   ChannelRestApi({
     required String channelName,
@@ -186,25 +185,6 @@ class ChannelRestApi {
       fetcher: _fetchMessageVersionsPage,
       requestPath: path,
     );
-  }
-
-  /// Sends a PATCH request to update, delete, or append a message.
-  ///
-  /// Spec: RSL15b
-  Future<UpdateDeleteResult> patchMessage(
-    String serial,
-    Map<String, dynamic> body, {
-    Map<String, String>? params,
-  }) async {
-    final path =
-        '/channels/$_encodedName/messages/${Uri.encodeComponent(serial)}';
-    final response = await _httpClient.request(
-      'PATCH',
-      path,
-      queryParams: params,
-      body: body,
-    );
-    return UpdateDeleteResult.fromMap(response.body as Map<String, dynamic>);
   }
 
   /// Retrieves annotations for a message.

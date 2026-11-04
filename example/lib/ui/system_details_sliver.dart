@@ -24,7 +24,7 @@ class SystemDetailsSliver extends HookWidget {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         TextRow('Running on', defaultTargetPlatform.name),
-        const TextRow('Ably SDK version', '0.2.0'),
+        const TextRow('Ably SDK version', '0.3.0'),
         TextRow('Ably Client ID', Constants.clientId),
         TextRow('Ably API key', hideApiKeySecret(apiKeyProvision.key)),
         if (apiKeyProvision.source != ApiKeySource.env)

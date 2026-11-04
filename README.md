@@ -1,121 +1,146 @@
-[![pub package](https://img.shields.io/pub/v/ably.svg)](https://pub.dev/packages/ably)
-[![License](https://img.shields.io/github/license/ably/ably-pubsub-dart)](https://github.com/ably/ably-pubsub-dart/blob/main/LICENSE)
-
----
+[![pub.dev: ably_pubsub_device](https://img.shields.io/pub/v/ably_pubsub_device?label=ably_pubsub_device)](https://pub.dev/packages/ably_pubsub_device)
+[![License](https://badgen.net/github/license/ably/ably-pubsub-dart)](https://github.com/ably/ably-pubsub-dart/blob/main/LICENSE)
 
 # Ably Pub/Sub Dart SDK
 
-Build any realtime experience using Ably's Pub/Sub Dart SDK. A pure Dart implementation with no platform dependencies.
+The Dart SDK for [Ably Pub/Sub](https://ably.com/docs/basics): publish and subscribe to
+channels, and use message history and presence, from Dart and Flutter apps.
 
-(Note: at this stage, this implementation does not support push messaging, so continue to use [ably-flutter](https://github.com/ably/ably-flutter) if you need that.)
+> [!WARNING]
+> This SDK is experimental. Its API can change between 0.x releases.
 
-Ably Pub/Sub provides flexible APIs that deliver features such as pub-sub messaging, message history, presence, and push notifications. Utilizing Ably's realtime messaging platform, applications benefit from its highly performant, reliable, and scalable infrastructure.
+## Overview
 
-Find out more:
+This SDK provides the device package only, for end-user apps. There is no server package; for
+backends, use a server SDK such as [JavaScript](https://github.com/ably/ably-pubsub-js),
+[Java](https://github.com/ably/ably-pubsub-java), [Go](https://github.com/ably/ably-pubsub-go),
+[.NET](https://github.com/ably/ably-pubsub-dotnet), [Python](https://github.com/ably/ably-pubsub-python),
+[PHP](https://github.com/ably/ably-pubsub-php) or [Ruby](https://github.com/ably/ably-pubsub-ruby).
 
-- [Ably Pub/Sub docs](https://ably.com/docs/basics)
-- [Ably Pub/Sub Examples](https://ably.com/examples?product=pubsub)
+| Package | Use it for | Entry point |
+|---------|-----------|-------------|
+| `ably_pubsub_device` | Applications on end-user devices | `createClient` |
 
----
+## Requirements
 
-## Getting started
-
-Everything you need to get started with Ably:
-
-- [Getting started with Pub/Sub](https://ably.com/docs/getting-started/setup)
-
----
-
-## Supported platforms
-
-This is a pure Dart package with no platform-specific dependencies. It runs anywhere Dart runs.
-
-| Platform | Support |
-|----------|---------|
-| Dart     | >=3.0.0 |
-
----
+Dart 3.0 or later. The SDK runs on every platform that provides `dart:io` (the Dart VM, and Flutter
+on Android, iOS, macOS, Linux and Windows).
 
 ## Installation
 
-The Dart SDK is available as a [pub.dev package](https://pub.dev/packages/ably). Add it to your `pubspec.yaml`:
-
-```yaml
-dependencies:
-  ably: ^0.2.0
+```bash
+dart pub add ably_pubsub_device
 ```
 
-Then run:
+In a Flutter app, run `flutter pub add ably_pubsub_device` instead.
 
-```sh
-dart pub get
-```
+## Quick start
 
-## Usage
-
-### REST
-
-Use the REST client for stateless operations like publishing messages and querying history:
+Authenticate a device with tokens issued by your own server, through `authUrl` or `authCallback`.
+Never embed an API key in an app that runs on an end-user device.
 
 ```dart
-import 'package:ably/ably.dart';
+import 'package:ably_pubsub_device/ably_pubsub_device.dart';
 
-// Create a REST client
-final rest = RestClient(options: ClientOptions(key: 'your-ably-api-key'));
+Future<void> main() async {
+  final client = createClient(
+    ClientOptions(
+      authUrl: 'https://your-server.example.com/ably-auth',
+      clientId: 'me',
+    ),
+  );
 
-// Get a channel
-final channel = rest.channels.get('test-channel');
+  // The client connects automatically. Subscribing attaches the channel.
+  final channel = client.channels.get('test-channel');
+  channel.subscribe((Message message) {
+    print('Received: ${message.data}');
+  });
 
-// Publish a message
-await channel.publish(name: 'greeting', data: 'hello world');
-
-// Retrieve message history
-final history = await channel.history();
-for (final message in history.items) {
-  print('${message.name}: ${message.data}');
+  await channel.publish(name: 'test-event', data: 'hello world');
 }
 ```
 
-### Realtime
+To get tokens from your own code instead of a URL, set `authCallback`. It can return a token
+string, a `TokenDetails` or a `TokenRequest`.
 
-Use the Realtime client for persistent connections with live message delivery:
+## Migrating from 0.2.x
+
+Version 0.3.0 renames the package and creates clients with `createClient`.
+
+| | 0.2.x | 0.3.x |
+|---|---|---|
+| Package | `ably` | `ably_pubsub_device` |
+| Import | `package:ably/ably.dart` | `package:ably_pubsub_device/ably_pubsub_device.dart` |
+| Realtime client | `RealtimeClient(options: ...)` | `createClient(...)` |
+| REST client | `RestClient(options: ...)` | Removed; use `createClient(...)` |
+
+See [UPGRADING.md](https://github.com/ably/ably-pubsub-dart/blob/main/UPGRADING.md#02x-to-03x) for all other changes.
+
+## Common configuration
+
+Pass options to `createClient` in a `ClientOptions` object.
+
+### Endpoint
+
+`endpoint` selects the Ably host for HTTP requests and the realtime connection.
 
 ```dart
-import 'package:ably/ably.dart';
-
-// Create a Realtime client
-final realtime = RealtimeClient(
-  options: ClientOptions(key: 'your-ably-api-key', clientId: 'me'),
+final client = createClient(
+  ClientOptions(
+    authUrl: 'https://your-server.example.com/ably-auth',
+    clientId: 'me',
+    endpoint: 'nonprod:sandbox',
+  ),
 );
-
-// Wait for connection
-await realtime.connection.once(ConnectionEvent.connected);
-print('Connected to Ably');
-
-// Get a channel and subscribe
-final channel = realtime.channels.get('test-channel');
-await channel.subscribe(listener: (message) {
-  print('Received: ${message.data}');
-});
-
-// Publish a message
-await channel.publish(name: 'greeting', data: 'hello world');
 ```
 
----
+- Never put a port in `endpoint`: `localhost:8080` is not a hostname and does not resolve.
+- Set the port with `tlsPort`, or with `port` when TLS is off.
+- With TLS off (`tls: false`), use token authentication.
 
-## Contribute
+### Logging
 
-Read the [CONTRIBUTING.md](./CONTRIBUTING.md) guidelines to contribute to Ably.
+Set `logLevel` to a `LogLevel` value: `none`, `error`, `warn`, `info`, `debug` or `verbose`. The
+default is `warn`. By default, the SDK prints log lines with `print`. To send them elsewhere, set
+`logHandler`:
 
----
+```dart
+final client = createClient(
+  ClientOptions(
+    authUrl: 'https://your-server.example.com/ably-auth',
+    clientId: 'me',
+    logLevel: LogLevel.debug,
+    logHandler: (LogLevel level, String message, Map<String, dynamic> context) {
+      print('${level.name}: $message $context');
+    },
+  ),
+);
+```
 
-## Releases
+## Known limitations
 
-The [CHANGELOG.md](./CHANGELOG.md) contains details of the latest releases for this SDK. You can also view all Ably releases on [changelog.ably.com](https://changelog.ably.com).
+- Web is not supported. Browsers do not provide `dart:io`, which the SDK needs.
+- The SDK cannot activate a device for push notifications. For push in a Flutter app, use the
+  [Flutter SDK](https://github.com/ably/ably-pubsub-flutter).
 
----
+## Further reading
 
-## Support, feedback, and troubleshooting
+- [Ably Pub/Sub documentation](https://ably.com/docs/basics) and [examples](https://ably.com/examples?product=pubsub)
+- [Token authentication](https://ably.com/docs/auth/token)
+- [UPGRADING.md](https://github.com/ably/ably-pubsub-dart/blob/main/UPGRADING.md): upgrading from 0.2.x
+- [CHANGELOG.md](https://github.com/ably/ably-pubsub-dart/blob/main/CHANGELOG.md): release notes; all Ably releases are listed on [changelog.ably.com](https://changelog.ably.com)
+- [example/](https://github.com/ably/ably-pubsub-dart/tree/main/example): a Flutter example app
 
-For help or technical support, visit Ably's [support page](https://ably.com/support) or [GitHub Issues](https://github.com/ably/ably-pubsub-dart/issues) for community-reported bugs and discussions.
+## Contributing
+
+Read [CONTRIBUTING.md](https://github.com/ably/ably-pubsub-dart/blob/main/CONTRIBUTING.md) before contributing; it also describes the release
+process.
+
+## Support, feedback and troubleshooting
+
+For help, visit Ably's [support page](https://ably.com/support). Report bugs and compatibility
+problems on [GitHub Issues](https://github.com/ably/ably-pubsub-dart/issues).
+
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE](https://github.com/ably/ably-pubsub-dart/blob/main/LICENSE).
