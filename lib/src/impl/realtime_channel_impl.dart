@@ -14,9 +14,11 @@ import '../error/error_info.dart';
 import '../logging/logger.dart';
 import '../message/message.dart';
 import '../message/message_action.dart';
+import '../message/message_annotations.dart';
 import '../message/message_extras.dart';
 import '../message/message_filter.dart';
 import '../message/message_operation.dart';
+import '../message/message_version.dart';
 import '../message/update_delete_result.dart';
 import '../pagination/paginated_result.dart';
 import '../plugin/vcdiff_decoder.dart';
@@ -1097,6 +1099,25 @@ class RealtimeChannelImpl implements RealtimeChannel {
           messageAction = MessageActionExtension.fromInt(rawAction);
         }
 
+        final serial = map['serial'] as String?;
+        final timestamp = map['timestamp'] as int?;
+
+        // TM2s: version from the wire, else initialised from serial (TM2s1)
+        // and timestamp (TM2s2), matching Message.fromMap.
+        MessageVersion? version;
+        final rawVersion = map['version'];
+        if (rawVersion is Map<String, dynamic>) {
+          version = MessageVersion.fromMap(rawVersion);
+        } else if (serial != null || timestamp != null) {
+          version = MessageVersion(serial: serial, timestamp: timestamp);
+        }
+
+        // TM2u: a missing annotations field means an empty summary.
+        final rawAnnotations = map['annotations'];
+        final annotations = rawAnnotations is Map<String, dynamic>
+            ? MessageAnnotations.fromMap(rawAnnotations)
+            : const MessageAnnotations();
+
         messages.add(
           Message(
             id: map['id'] as String?,
@@ -1104,10 +1125,12 @@ class RealtimeChannelImpl implements RealtimeChannel {
             data: decodedData,
             clientId: map['clientId'] as String?,
             connectionId: map['connectionId'] as String?,
-            timestamp: map['timestamp'] as int?,
+            timestamp: timestamp,
             extras: extras != null ? MessageExtras.fromMap(extras) : null,
             action: messageAction,
-            serial: map['serial'] as String?,
+            serial: serial,
+            version: version,
+            annotations: annotations,
           ),
         );
       } on AblyException catch (e) {
